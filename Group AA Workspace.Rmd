@@ -6,6 +6,7 @@ date: '2022-10-03'
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
 ```
 
 ## R Markdown
@@ -14,16 +15,21 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
+```{r hi}
+hi <- "hi group!"
+
+print(hi)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r importing demographic data}
+#import CA Smoker data set
+ca_smoker_info <- read_csv("~/PHW251_Fall2022/phw251_projectdata/ca_csc_smoker_data.csv")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r importing outcome data}
+#import disease outcome and race dataset
+
+smoker_outcome_race <- read_csv("~/PHW251_Fall2022/phw251_projectdata/ca_csc_outcome_race_data.csv")
+  
+```
+
