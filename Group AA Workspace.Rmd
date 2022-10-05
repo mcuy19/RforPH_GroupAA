@@ -42,7 +42,6 @@ ca_outcome_race <- read_csv("~/PHW251_Fall2022/phw251_projectdata/ca_csc_outcome
 ca_outcome_race_selected <- ca_outcome_race %>% select(c(ID, SOCIAL, ASTHMA, HEARTDIS, DIABETES, OTHMENILL, INCOME, race01, race02, race03, race04, race05, race06, race07, race08, race09, race10, race11, race12, race13,race14, race15)) %>%
 rename (social = SOCIAL, asthma = ASTHMA, heartdis = HEARTDIS, diabetes = DIABETES, othmenill = OTHMENILL, income = INCOME)
 ca_outcome_race_selected
-
 ```
 ```{r}
 #remove "DIS" & "STAT" in the "ID" column 
