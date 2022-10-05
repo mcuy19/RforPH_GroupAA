@@ -43,6 +43,7 @@ ca_outcome_race_selected <- ca_outcome_race %>% select(c(ID, SOCIAL, ASTHMA, HEA
 rename (social = SOCIAL, asthma = ASTHMA, heartdis = HEARTDIS, diabetes = DIABETES, othmenill = OTHMENILL, income = INCOME)
 ca_outcome_race_selected
 ```
+
 ```{r}
 #remove "DIS" & "STAT" in the "ID" column 
 ca_outcome_race_selected$ID <- gsub("DIS","",as.character(ca_outcome_race_selected$ID))
@@ -54,5 +55,45 @@ ca_smoker_outcome <- merge(x = ca_smoker_selected, y = ca_outcome_race_selected,
 ca_smoker_outcome
 
 #Hi this is Danni, here is all the columns we need in one table, (pls let me know if any column needed is not here :) Also, the race part seems unclear, maybe we can summarize it in one column that including 15 races. For now, we can leave it here and I'll try how to combine all 15 race columns in one column later)
+```
+```{r create single race variable}
+
+#use mutate to combine 15 binary race columns into one categorical variable called "race"
+
+ca_smoker_outcome <- ca_smoker_outcome %>% 
+  mutate(race = case_when(race01 == "Yes" ~ "White",
+                          race02 == "Yes" ~ "Black",
+                          race03 == "Yes" ~ "Japanese",
+                          race04 == "Yes" ~ "Chinese",
+                          race05 == "Yes" ~ "Filipino",
+                          race06 == "Yes" ~ "Korean",
+                          race12 == "Yes" ~ "Vietnamese",
+                          race07 == "Yes" ~ "OtherAPI",
+                          race08 == "Yes" ~ "American Indian Alaska Native",
+                          race09 == "Yes" ~ "Mexican",
+                          race10 == "Yes" ~ "Hispanic or Latino",
+                          race11 == "Yes" ~ "Other",
+                          race13 == "Yes" ~ "Asian Indian",
+                          race14 == "Yes" ~ "Refused",
+                          race15 == "Yes" ~ "Don't Know"))
+
+#drop leftover binary race columns
+
+ca_smoker_outcome <- select(ca_smoker_outcome,-race01,
+                                 -race02,
+                                 -race03,
+                                 -race04,
+                                 -race05,
+                                 -race06,
+                                 -race07,
+                                 -race08,
+                                 -race09,
+                                 -race10,
+                                 -race11,
+                                 -race12,
+                                 -race13,
+                                 -race14,
+                                 -race15)
+                            
 ```
 
