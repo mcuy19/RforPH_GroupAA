@@ -77,7 +77,7 @@ ca_smoker_outcome <- ca_smoker_outcome %>%
                           race14 == "Yes" ~ "Refused",
                           race15 == "Yes" ~ "Don't Know"))
 
-#drop leftover binary race columns
+#drop leftover binary race columns 
 
 ca_smoker_outcome <- select(ca_smoker_outcome,-race01,
                                  -race02,
@@ -95,5 +95,6 @@ ca_smoker_outcome <- select(ca_smoker_outcome,-race01,
                                  -race14,
                                  -race15)
                             
+
 ```
 
