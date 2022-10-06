@@ -1,12 +1,14 @@
 ---
-title: "Group AA workspace"
+title: "Group AA Milestone 2"
 output: pdf_document
 date: '2022-10-03'
+group members: Victoria, Danni, Maddy 
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+
 ```
 
 ## R Markdown
@@ -15,47 +17,88 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
+
 ```{r hi}
 hi <- "hi group!"
 print(hi)
 ```
 
+\newpage
+
+## Part 1: Describing the dataset \n
+
+* What is the data source? (1-2 sentences on where the data is coming from, dates included, etc.) \n
+
+The data comes from the 2011 California Smokers' Cohort (CSC) and was the ninth of a 
+series of triennial surveys called the California Tobacco Surveys (CTS) conducted 
+since 1990. It was sponsored by the State of California's Department of Public Health 
+through a contract with the University of California at San Diego (UCSD). Data 
+collection for CLSS began on July 8, 2011 and was completed on December 8, 2011.
+
+* How does the dataset relate to the group problem statement and question? \n
+
+Smoking has been shown to lead to various poor health outcomes. However, some smokers 
+are more prone than others to these adverse effects. The question is what characteristics 
+and behaviors among smokers in California led to adverse health outcomes.
+
+\newpage
+
+## Part 2: Import statement \n
+
+* Use appropriate import function and package based on the type of file \n
+* Utilize function arguments to control relevant components (i.e. change column types, 
+column names, missing values, etc.) \n
+* Document the import process \n
+
 ```{r importing demographic data}
 #import CA Smoker data set
 ca_smoker_info <- read_csv("~/PHW251_Fall2022/phw251_projectdata/ca_csc_smoker_data.csv")
-ca_smoker_info
 
 #tidying data
 ca_smoker_selected <- ca_smoker_info %>% select(c(psraid,smokstat,HOWMANY, SMOK6NUM, SMOK6UNI)) %>% 
 rename(ID = psraid, smoking_status = smokstat, howmany = HOWMANY, smok6num = SMOK6NUM, smok6uni = SMOK6UNI) %>%
 mutate(pack_year = howmany)
-ca_smoker_selected
 
 #Hi this is Danni, for the calculation of pack-year, Im not quite sure which columns' data and which equation should I use. I just put the new column there and leave it with the value of "howmany", we can discuss more about it and I'll redo the pack-year column
 ```
+
+\newpage
 
 ```{r importing outcome data}
 #import CA smoker disease outcome and race data set
 ca_outcome_race <- read_csv("~/PHW251_Fall2022/phw251_projectdata/ca_csc_outcome_race_data.csv")
 
 #tidying data
-ca_outcome_race_selected <- ca_outcome_race %>% select(c(ID, SOCIAL, ASTHMA, HEARTDIS, DIABETES, OTHMENILL, INCOME, race01, race02, race03, race04, race05, race06, race07, race08, race09, race10, race11, race12, race13,race14, race15)) %>%
-rename (social = SOCIAL, asthma = ASTHMA, heartdis = HEARTDIS, diabetes = DIABETES, othmenill = OTHMENILL, income = INCOME)
-ca_outcome_race_selected
+ca_outcome_race_selected <- ca_outcome_race %>% select(c(ID, SOCIAL, ASTHMA, 
+                                                         HEARTDIS, DIABETES, 
+                                                         OTHMENILL, INCOME, 
+                                                         race01, race02, race03, 
+                                                         race04, race05, race06, 
+                                                         race07, race08, race09, 
+                                                         race10, race11, race12, 
+                                                         race13,race14, race15)) %>%
+rename (social = SOCIAL, asthma = ASTHMA, heartdis = HEARTDIS, diabetes = DIABETES, 
+        othmenill = OTHMENILL, income = INCOME)
+
 ```
+
+\newpage
 
 ```{r}
 #remove "DIS" & "STAT" in the "ID" column 
 ca_outcome_race_selected$ID <- gsub("DIS","",as.character(ca_outcome_race_selected$ID))
 ca_outcome_race_selected$ID <- gsub("STAT","",as.character(ca_outcome_race_selected$ID))
-ca_outcome_race_selected
 
 #joining two data sets by participant's unique ID
 ca_smoker_outcome <- merge(x = ca_smoker_selected, y = ca_outcome_race_selected, by = "ID")
-ca_smoker_outcome
+
 
 #Hi this is Danni, here is all the columns we need in one table, (pls let me know if any column needed is not here :) Also, the race part seems unclear, maybe we can summarize it in one column that including 15 races. For now, we can leave it here and I'll try how to combine all 15 race columns in one column later)
+
+#Hi this is Maddy! I combined the races into one column, please see code below :) 
 ```
+\newpage
+
 ```{r create single race variable}
 
 #use mutate to combine 15 binary race columns into one categorical variable called "race"
@@ -68,7 +111,7 @@ ca_smoker_outcome <- ca_smoker_outcome %>%
                           race05 == "Yes" ~ "Filipino",
                           race06 == "Yes" ~ "Korean",
                           race12 == "Yes" ~ "Vietnamese",
-                          race07 == "Yes" ~ "OtherAPI",
+                          race07 == "Yes" ~ "Other Asian Pacific Islander",
                           race08 == "Yes" ~ "American Indian Alaska Native",
                           race09 == "Yes" ~ "Mexican",
                           race10 == "Yes" ~ "Hispanic or Latino",
@@ -97,4 +140,80 @@ ca_smoker_outcome <- select(ca_smoker_outcome,-race01,
                             
 
 ```
+\newpage
 
+## Part 3: Identify data types for 5+ data elements/columns/variables \n
+* Identify 5+ data elements required for your specified scenario. If <5 elements are required to complete
+the analysis, please choose additional variables of interest in the data set to explore in this milestone. \n
+* Utilize functions or resources in RStudio to determine the types of each data element (i.e. character, numeric, factor) \n
+* Identify the desired type/format for each variable—will you need to convert any columns to numeric or another type? \n
+
+Five variables of interest:
+1. Smoking status
+2. Race
+3. Income
+4. Heart Disease
+5. Pack years
+
+
+\newpage
+
+## Part 4: Provide a basic description of the 5+ data elements \n
+* Numeric: mean, median, range \n
+* Character:  unique values/categories \n
+* Or any other descriptives that will be useful to the analysis \n
+
+*Smoking status:*
+```{r explore smoking status variable}
+#number of unique categories 
+ca_smoker_outcome %>% summarize(n_distinct(smoking_status))
+
+#names of unique categories 
+ca_smoker_outcome %>% summarize(unique(smoking_status))
+
+#tabulate smoking status
+table(ca_smoker_outcome$smoking_status)
+```
+*Race:*
+```{r explore race variable}
+#number of unique categories 
+ca_smoker_outcome %>% summarize(n_distinct(race))
+
+#names of unique categories 
+ca_smoker_outcome %>% summarize(unique(race))
+
+#tabulate smoking status
+table(ca_smoker_outcome$race)
+```
+*Income:*
+```{r explore income variable}
+#number of unique categories 
+ca_smoker_outcome %>% summarize(n_distinct(income))
+
+#names of unique categories 
+ca_smoker_outcome %>% summarize(unique(income))
+
+#tabulate income
+table(ca_smoker_outcome$income)
+```
+*Heart Disease:*
+```{r explore heart disease outcome variable}
+#number of unique categories 
+ca_smoker_outcome %>% summarize(n_distinct(heartdis))
+
+#names of unique categories 
+ca_smoker_outcome %>% summarize(unique(heartdis))
+
+#tabulate income
+table(ca_smoker_outcome$heartdis)
+```
+
+*Pack Years:*
+```{r explore pack years variable}
+
+#change pack year variable from character to numeric
+ca_smoker_outcome <- ca_smoker_outcome %>% mutate(pack_year_num = as.numeric(pack_year))
+
+#look at minimum, median, mean, maximum, and # of NAs in pack year
+summary(ca_smoker_outcome$pack_year_num)
+```
