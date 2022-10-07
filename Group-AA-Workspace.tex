@@ -1,0 +1,624 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Group AA Milestone 2},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Group AA Milestone 2}
+\author{}
+\date{\vspace{-2.5em}2022-10-03}
+
+\begin{document}
+\maketitle
+
+\hypertarget{r-markdown}{%
+\subsection{R Markdown}\label{r-markdown}}
+
+This is an R Markdown document. Markdown is a simple formatting syntax
+for authoring HTML, PDF, and MS Word documents. For more details on
+using R Markdown see \url{http://rmarkdown.rstudio.com}.
+
+When you click the \textbf{Knit} button a document will be generated
+that includes both content as well as the output of any embedded R code
+chunks within the document. You can embed an R code chunk like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hi }\OtherTok{\textless{}{-}} \StringTok{"hi group!"}
+\FunctionTok{print}\NormalTok{(hi)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "hi group!"
+\end{verbatim}
+
+\newpage
+
+\hypertarget{part-1-describing-the-dataset}{%
+\subsection{\texorpdfstring{Part 1: Describing the dataset
+\n}{Part 1: Describing the dataset }}\label{part-1-describing-the-dataset}}
+
+\begin{itemize}
+\tightlist
+\item
+  What is the data source? (1-2 sentences on where the data is coming
+  from, dates included, etc.) \n
+\end{itemize}
+
+The data comes from the 2011 California Smokers' Cohort (CSC) and was
+the ninth of a series of triennial surveys called the California Tobacco
+Surveys (CTS) conducted since 1990. It was sponsored by the State of
+California's Department of Public Health through a contract with the
+University of California at San Diego (UCSD). Data collection for CLSS
+began on July 8, 2011 and was completed on December 8, 2011.
+
+\begin{itemize}
+\tightlist
+\item
+  How does the dataset relate to the group problem statement and
+  question? \n
+\end{itemize}
+
+Smoking has been shown to lead to various poor health outcomes. However,
+some smokers are more prone than others to these adverse effects. The
+question is what characteristics and behaviors among smokers in
+California led to adverse health outcomes.
+
+\newpage
+
+\hypertarget{part-2-import-statement}{%
+\subsection{\texorpdfstring{Part 2: Import statement
+\n}{Part 2: Import statement }}\label{part-2-import-statement}}
+
+\begin{itemize}
+\tightlist
+\item
+  Use appropriate import function and package based on the type of file
+  \n
+\item
+  Utilize function arguments to control relevant components (i.e.~change
+  column types, column names, missing values, etc.) \n
+\item
+  Document the import process \n
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#import CA Smoker data set}
+\NormalTok{ca\_smoker\_info }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"\textasciitilde{}/PHW251\_Fall2022/phw251\_projectdata/ca\_csc\_smoker\_data.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 1000 Columns: 156
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (152): RIGHTSEX, smokstat, ACIG100, DOSMOKE, HOWMANY, SMOK6NUM, SMOK6UNI...
+## dbl   (3): psraid, nosmknum1, quitoffn
+## lgl   (1): QUITINTNFORM
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#tidying data}
+\NormalTok{ca\_smoker\_selected }\OtherTok{\textless{}{-}}\NormalTok{ ca\_smoker\_info }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(}\FunctionTok{c}\NormalTok{(psraid,smokstat,HOWMANY, SMOK6NUM, SMOK6UNI)) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{rename}\NormalTok{(}\AttributeTok{ID =}\NormalTok{ psraid, }\AttributeTok{smoking\_status =}\NormalTok{ smokstat, }\AttributeTok{howmany =}\NormalTok{ HOWMANY, }\AttributeTok{smok6num =}\NormalTok{ SMOK6NUM, }\AttributeTok{smok6uni =}\NormalTok{ SMOK6UNI) }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{mutate}\NormalTok{(}\AttributeTok{pack\_year =}\NormalTok{ howmany)}
+
+\CommentTok{\#Hi this is Danni, for the calculation of pack{-}year, Im not quite sure which columns\textquotesingle{} data and which equation should I use. I just put the new column there and leave it with the value of "howmany", we can discuss more about it and I\textquotesingle{}ll redo the pack{-}year column}
+\end{Highlighting}
+\end{Shaded}
+
+\newpage
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#import CA smoker disease outcome and race data set}
+\NormalTok{ca\_outcome\_race }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"\textasciitilde{}/PHW251\_Fall2022/phw251\_projectdata/ca\_csc\_outcome\_race\_data.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 1000 Columns: 89
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (81): ID, INCARS, BANAGREE, CASINSMK, CASMOKES, HHSMOKNU, ACQSMOKE, LIVE...
+## dbl  (6): ACTIVHRS, ACTIVMIN, HTINFEET, HTINCHES, WGTINLBS, AGEUS
+## lgl  (2): HTCENTIM, WGTINKILOS
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#tidying data}
+\NormalTok{ca\_outcome\_race\_selected }\OtherTok{\textless{}{-}}\NormalTok{ ca\_outcome\_race }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(}\FunctionTok{c}\NormalTok{(ID, SOCIAL, ASTHMA, }
+\NormalTok{                                                         HEARTDIS, DIABETES, }
+\NormalTok{                                                         OTHMENILL, INCOME, }
+\NormalTok{                                                         race01, race02, race03, }
+\NormalTok{                                                         race04, race05, race06, }
+\NormalTok{                                                         race07, race08, race09, }
+\NormalTok{                                                         race10, race11, race12, }
+\NormalTok{                                                         race13,race14, race15)) }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{rename}\NormalTok{ (}\AttributeTok{social =}\NormalTok{ SOCIAL, }\AttributeTok{asthma =}\NormalTok{ ASTHMA, }\AttributeTok{heartdis =}\NormalTok{ HEARTDIS, }\AttributeTok{diabetes =}\NormalTok{ DIABETES, }
+        \AttributeTok{othmenill =}\NormalTok{ OTHMENILL, }\AttributeTok{income =}\NormalTok{ INCOME)}
+\end{Highlighting}
+\end{Shaded}
+
+\newpage
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#remove "DIS" \& "STAT" in the "ID" column }
+\NormalTok{ca\_outcome\_race\_selected}\SpecialCharTok{$}\NormalTok{ID }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"DIS"}\NormalTok{,}\StringTok{""}\NormalTok{,}\FunctionTok{as.character}\NormalTok{(ca\_outcome\_race\_selected}\SpecialCharTok{$}\NormalTok{ID))}
+\NormalTok{ca\_outcome\_race\_selected}\SpecialCharTok{$}\NormalTok{ID }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"STAT"}\NormalTok{,}\StringTok{""}\NormalTok{,}\FunctionTok{as.character}\NormalTok{(ca\_outcome\_race\_selected}\SpecialCharTok{$}\NormalTok{ID))}
+
+\CommentTok{\#joining two data sets by participant\textquotesingle{}s unique ID}
+\NormalTok{ca\_smoker\_outcome }\OtherTok{\textless{}{-}} \FunctionTok{merge}\NormalTok{(}\AttributeTok{x =}\NormalTok{ ca\_smoker\_selected, }\AttributeTok{y =}\NormalTok{ ca\_outcome\_race\_selected, }\AttributeTok{by =} \StringTok{"ID"}\NormalTok{)}
+
+
+\CommentTok{\#Hi this is Danni, here is all the columns we need in one table, (pls let me know if any column needed is not here :) Also, the race part seems unclear, maybe we can summarize it in one column that including 15 races. For now, we can leave it here and I\textquotesingle{}ll try how to combine all 15 race columns in one column later)}
+
+\CommentTok{\#Hi this is Maddy! I combined the races into one column, please see code below :) }
+\end{Highlighting}
+\end{Shaded}
+
+\newpage
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#use mutate to combine 15 binary race columns into one categorical variable called "race"}
+
+\NormalTok{ca\_smoker\_outcome }\OtherTok{\textless{}{-}}\NormalTok{ ca\_smoker\_outcome }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{race =} \FunctionTok{case\_when}\NormalTok{(race01 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"White"}\NormalTok{,}
+\NormalTok{                          race02 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Black"}\NormalTok{,}
+\NormalTok{                          race03 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Japanese"}\NormalTok{,}
+\NormalTok{                          race04 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Chinese"}\NormalTok{,}
+\NormalTok{                          race05 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Filipino"}\NormalTok{,}
+\NormalTok{                          race06 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Korean"}\NormalTok{,}
+\NormalTok{                          race12 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Vietnamese"}\NormalTok{,}
+\NormalTok{                          race07 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Other Asian Pacific Islander"}\NormalTok{,}
+\NormalTok{                          race08 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"American Indian Alaska Native"}\NormalTok{,}
+\NormalTok{                          race09 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Mexican"}\NormalTok{,}
+\NormalTok{                          race10 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Hispanic or Latino"}\NormalTok{,}
+\NormalTok{                          race11 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Other"}\NormalTok{,}
+\NormalTok{                          race13 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Asian Indian"}\NormalTok{,}
+\NormalTok{                          race14 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Refused"}\NormalTok{,}
+\NormalTok{                          race15 }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Don\textquotesingle{}t Know"}\NormalTok{))}
+
+\CommentTok{\#drop leftover binary race columns }
+
+\NormalTok{ca\_smoker\_outcome }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(ca\_smoker\_outcome,}\SpecialCharTok{{-}}\NormalTok{race01,}
+                                 \SpecialCharTok{{-}}\NormalTok{race02,}
+                                 \SpecialCharTok{{-}}\NormalTok{race03,}
+                                 \SpecialCharTok{{-}}\NormalTok{race04,}
+                                 \SpecialCharTok{{-}}\NormalTok{race05,}
+                                 \SpecialCharTok{{-}}\NormalTok{race06,}
+                                 \SpecialCharTok{{-}}\NormalTok{race07,}
+                                 \SpecialCharTok{{-}}\NormalTok{race08,}
+                                 \SpecialCharTok{{-}}\NormalTok{race09,}
+                                 \SpecialCharTok{{-}}\NormalTok{race10,}
+                                 \SpecialCharTok{{-}}\NormalTok{race11,}
+                                 \SpecialCharTok{{-}}\NormalTok{race12,}
+                                 \SpecialCharTok{{-}}\NormalTok{race13,}
+                                 \SpecialCharTok{{-}}\NormalTok{race14,}
+                                 \SpecialCharTok{{-}}\NormalTok{race15)}
+\end{Highlighting}
+\end{Shaded}
+
+\newpage
+
+\hypertarget{part-3-identify-data-types-for-5-data-elementscolumnsvariables}{%
+\subsection{\texorpdfstring{Part 3: Identify data types for 5+ data
+elements/columns/variables
+\n}{Part 3: Identify data types for 5+ data elements/columns/variables }}\label{part-3-identify-data-types-for-5-data-elementscolumnsvariables}}
+
+\begin{itemize}
+\tightlist
+\item
+  Identify 5+ data elements required for your specified scenario. If
+  \textless5 elements are required to complete the analysis, please
+  choose additional variables of interest in the data set to explore in
+  this milestone. \n
+\item
+  Utilize functions or resources in RStudio to determine the types of
+  each data element (i.e.~character, numeric, factor) \n
+\item
+  Identify the desired type/format for each variable---will you need to
+  convert any columns to numeric or another type? \n
+\end{itemize}
+
+Five variables of interest: 1. Smoking status 2. Race 3. Income 4. Heart
+Disease 5. Pack years
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#identify types of each data element}
+\FunctionTok{str}\NormalTok{(ca\_smoker\_outcome)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    1000 obs. of  13 variables:
+##  $ ID            : num  1e+05 1e+05 1e+05 1e+05 1e+05 ...
+##  $ smoking_status: chr  "Current daily smoker" "Current daily smoker" "Current nondaily smoker" "Current daily smoker" ...
+##  $ howmany       : chr  "30" "20" "1" "15" ...
+##  $ smok6num      : chr  "36" "25" NA "20" ...
+##  $ smok6uni      : chr  "Years" "Years" NA "Years" ...
+##  $ pack_year     : chr  "30" "20" "1" "15" ...
+##  $ social        : chr  "No" "Yes" "Yes" "Yes" ...
+##  $ asthma        : chr  "No" "No" "No" "Yes" ...
+##  $ heartdis      : chr  "Yes" "No" "No" "No" ...
+##  $ diabetes      : chr  "No" "No" "No" "No" ...
+##  $ othmenill     : chr  "No" "No" "No" "No" ...
+##  $ income        : chr  "$30,001 to $50,000" "$20,000 or less" "$30,001 to $50,000" "$20,001 to $30,000" ...
+##  $ race          : chr  "White" "White" "White" "White" ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#convert data types to appropriate type in new column such as as.factor; as.numeric; as.character}
+\NormalTok{ca\_smoker\_outcome }\OtherTok{\textless{}{-}}\NormalTok{ ca\_smoker\_outcome }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{new\_howmany =} \FunctionTok{as.numeric}\NormalTok{(howmany)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{new\_smoking\_status=} \FunctionTok{as.factor}\NormalTok{(smoking\_status)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{new\_smok6num =} \FunctionTok{as.numeric}\NormalTok{(smok6num)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{new\_smok6uni =} \FunctionTok{as.factor}\NormalTok{(smok6uni)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{new\_pack\_year =} \FunctionTok{as.numeric}\NormalTok{(pack\_year)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{new\_social =} \FunctionTok{as.factor}\NormalTok{(social)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{new\_asthma =} \FunctionTok{as.factor}\NormalTok{(asthma)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{new\_heartdis =} \FunctionTok{as.factor}\NormalTok{(heartdis)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{new\_diabetes =} \FunctionTok{as.factor}\NormalTok{(heartdis)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{new\_othmenill =} \FunctionTok{as.factor}\NormalTok{(othmenill)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{new\_income =} \FunctionTok{as.factor}\NormalTok{(income))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in mask$eval_all_mutate(quo): NAs introduced by coercion
+
+## Warning in mask$eval_all_mutate(quo): NAs introduced by coercion
+
+## Warning in mask$eval_all_mutate(quo): NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(ca\_smoker\_outcome}\SpecialCharTok{$}\NormalTok{new\_howmany)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    1.00    7.00   12.00   13.89   20.00   60.00      10
+\end{verbatim}
+
+\newpage
+
+\hypertarget{part-4-provide-a-basic-description-of-the-5-data-elements}{%
+\subsection{\texorpdfstring{Part 4: Provide a basic description of the
+5+ data elements
+\n}{Part 4: Provide a basic description of the 5+ data elements }}\label{part-4-provide-a-basic-description-of-the-5-data-elements}}
+
+\begin{itemize}
+\tightlist
+\item
+  Numeric: mean, median, range \n
+\item
+  Character: unique values/categories \n
+\item
+  Or any other descriptives that will be useful to the analysis \n
+\end{itemize}
+
+\emph{Smoking status:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#number of unique categories }
+\NormalTok{ca\_smoker\_outcome }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarize}\NormalTok{(}\FunctionTok{n\_distinct}\NormalTok{(smoking\_status))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   n_distinct(smoking_status)
+## 1                          2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#names of unique categories }
+\NormalTok{ca\_smoker\_outcome }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarize}\NormalTok{(}\FunctionTok{unique}\NormalTok{(smoking\_status))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    unique(smoking_status)
+## 1    Current daily smoker
+## 2 Current nondaily smoker
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#tabulate smoking status}
+\FunctionTok{table}\NormalTok{(ca\_smoker\_outcome}\SpecialCharTok{$}\NormalTok{smoking\_status)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    Current daily smoker Current nondaily smoker 
+##                     837                     163
+\end{verbatim}
+
+\emph{Race:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#number of unique categories }
+\NormalTok{ca\_smoker\_outcome }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarize}\NormalTok{(}\FunctionTok{n\_distinct}\NormalTok{(race))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   n_distinct(race)
+## 1               14
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#names of unique categories }
+\NormalTok{ca\_smoker\_outcome }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarize}\NormalTok{(}\FunctionTok{unique}\NormalTok{(race))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                     unique(race)
+## 1                          White
+## 2                          Black
+## 3   Other Asian Pacific Islander
+## 4  American Indian Alaska Native
+## 5             Hispanic or Latino
+## 6                        Mexican
+## 7                   Asian Indian
+## 8                       Filipino
+## 9                       Japanese
+## 10                    Don't Know
+## 11                       Chinese
+## 12                       Refused
+## 13                         Other
+## 14                    Vietnamese
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#tabulate smoking status}
+\FunctionTok{table}\NormalTok{(ca\_smoker\_outcome}\SpecialCharTok{$}\NormalTok{race)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## American Indian Alaska Native                  Asian Indian 
+##                            40                             1 
+##                         Black                       Chinese 
+##                            78                             7 
+##                    Don't Know                      Filipino 
+##                             2                             8 
+##            Hispanic or Latino                      Japanese 
+##                            17                             6 
+##                       Mexican                         Other 
+##                            19                             3 
+##  Other Asian Pacific Islander                       Refused 
+##                             6                             7 
+##                    Vietnamese                         White 
+##                             2                           804
+\end{verbatim}
+
+\emph{Income:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#number of unique categories }
+\NormalTok{ca\_smoker\_outcome }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarize}\NormalTok{(}\FunctionTok{n\_distinct}\NormalTok{(income))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   n_distinct(income)
+## 1                  9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#names of unique categories }
+\NormalTok{ca\_smoker\_outcome }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarize}\NormalTok{(}\FunctionTok{unique}\NormalTok{(income))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             unique(income)
+## 1       $30,001 to $50,000
+## 2          $20,000 or less
+## 3       $20,001 to $30,000
+## 4     $100,001 to $150,000
+## 5       $50,001 to $75,000
+## 6            Over $150,000
+## 7      $75,001 to $100,000
+## 8    (DO NOT READ) Refused
+## 9 (DO NOT READ) Don't know
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#tabulate income}
+\FunctionTok{table}\NormalTok{(ca\_smoker\_outcome}\SpecialCharTok{$}\NormalTok{income)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## (DO NOT READ) Don't know    (DO NOT READ) Refused     $100,001 to $150,000 
+##                       14                       48                       83 
+##          $20,000 or less       $20,001 to $30,000       $30,001 to $50,000 
+##                      243                      139                      182 
+##       $50,001 to $75,000      $75,001 to $100,000            Over $150,000 
+##                      157                       90                       44
+\end{verbatim}
+
+\emph{Heart Disease:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#number of unique categories }
+\NormalTok{ca\_smoker\_outcome }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarize}\NormalTok{(}\FunctionTok{n\_distinct}\NormalTok{(heartdis))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   n_distinct(heartdis)
+## 1                    3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#names of unique categories }
+\NormalTok{ca\_smoker\_outcome }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarize}\NormalTok{(}\FunctionTok{unique}\NormalTok{(heartdis))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           unique(heartdis)
+## 1                      Yes
+## 2                       No
+## 3 (DO NOT READ) Don't know
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#tabulate income}
+\FunctionTok{table}\NormalTok{(ca\_smoker\_outcome}\SpecialCharTok{$}\NormalTok{heartdis)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## (DO NOT READ) Don't know                       No                      Yes 
+##                        3                      916                       81
+\end{verbatim}
+
+\emph{Pack Years:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#look at minimum, median, mean, maximum, and \# of NAs in pack year}
+\FunctionTok{summary}\NormalTok{(ca\_smoker\_outcome}\SpecialCharTok{$}\NormalTok{new\_pack\_year)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    1.00    7.00   12.00   13.89   20.00   60.00      10
+\end{verbatim}
+
+\end{document}

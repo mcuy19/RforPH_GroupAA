@@ -155,6 +155,25 @@ Five variables of interest:
 4. Heart Disease
 5. Pack years
 
+```{r}
+#identify types of each data element
+str(ca_smoker_outcome)
+
+#convert data types to appropriate type in new column such as as.factor; as.numeric; as.character
+ca_smoker_outcome <- ca_smoker_outcome %>% mutate(new_howmany = as.numeric(howmany)) %>%
+  mutate(new_smoking_status= as.factor(smoking_status)) %>% 
+  mutate(new_smok6num = as.numeric(smok6num)) %>% 
+  mutate(new_smok6uni = as.factor(smok6uni)) %>%
+  mutate(new_pack_year = as.numeric(pack_year)) %>% 
+  mutate(new_social = as.factor(social)) %>% 
+  mutate(new_asthma = as.factor(asthma)) %>% 
+  mutate(new_heartdis = as.factor(heartdis)) %>% 
+  mutate(new_diabetes = as.factor(heartdis)) %>% 
+  mutate(new_othmenill = as.factor(othmenill)) %>% 
+  mutate(new_income = as.factor(income))
+
+summary(ca_smoker_outcome$new_howmany)
+```
 
 \newpage
 
@@ -211,9 +230,6 @@ table(ca_smoker_outcome$heartdis)
 *Pack Years:*
 ```{r explore pack years variable}
 
-#change pack year variable from character to numeric
-ca_smoker_outcome <- ca_smoker_outcome %>% mutate(pack_year_num = as.numeric(pack_year))
-
 #look at minimum, median, mean, maximum, and # of NAs in pack year
-summary(ca_smoker_outcome$pack_year_num)
+summary(ca_smoker_outcome$new_pack_year)
 ```
