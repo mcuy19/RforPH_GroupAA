@@ -289,7 +289,7 @@ new_income %in% c("$30,001 to $50,000", "$50,001 to $75,000") ~ "Middle Income",
 new_income %in% c("$75,001 to $100,000", "$100,001 to $150,000", "Over $150,000") ~ "High Income"))
 ```
 
-*Cleaning - NA values*
+*Cleaning - NA values using tables to ensure no weird values*
 ```{r}
 table(ca_smoker_outcome$new_smoking_status, useNA = "always")
 table(ca_smoker_outcome$new_smok6uni, useNA = "always")
