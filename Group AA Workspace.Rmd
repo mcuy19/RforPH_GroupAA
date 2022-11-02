@@ -1,8 +1,10 @@
 ---
-title: "Group AA Milestone 2"
-output: pdf_document
-date: '2022-10-03'
-group members: Victoria, Danni, Maddy 
+title: "Group AA Milestone 3"
+output:
+  pdf_document: default
+  word_document: default
+date: '2022-11-01'
+group members: Victoria, Danni, Maddy
 ---
 
 ```{r setup, include=FALSE}
@@ -27,7 +29,7 @@ print(hi)
 
 ## Part 1: Describing the dataset \n
 
-* What is the data source? (1-2 sentences on where the data is coming from, dates included, etc.) \n
+* What is the data source? (1-2 sentences on where the data is coming from, dates included, etc.) 
 
 The data comes from the 2011 California Smokers' Cohort (CSC) and was the ninth of a 
 series of triennial surveys called the California Tobacco Surveys (CTS) conducted 
@@ -234,8 +236,68 @@ table(ca_smoker_outcome$heartdis)
 summary(ca_smoker_outcome$new_pack_year)
 ```
 
+*Milestone 3* 
+- Subset rows or columns, as needed
+- Create new variables needed for analysis (minimum 2)
+- New variables should be created based on existing columns; for example
+- Calculating a rate
+- Combining character strings
+- Reordering income to CA - low, med, high
+- Pack years -> find avg, and categorize those below “low” and above “high”
+- If no new values are needed for final tables/graphs, please create 2 new variables anyway
 
+*taking out values that include don't know to NA*
+```{r}
+library(tidyverse)
+library(lubridate)
 
+is.na(ca_smoker_outcome) <- ca_smoker_outcome == "(DO NOT READ) Don't know"
+is.na(ca_smoker_outcome) <- ca_smoker_outcome == "(DO NOT READ) Refused"
+is.na(ca_smoker_outcome) <- ca_smoker_outcome == "NA/Not Applicable"
 
+#subsetting rows  and columns to include only "new" columns, rows include NA 
+
+str(ca_smoker_outcome)
+ca_smoker_outcome <- select(ca_smoker_outcome, c('ID', 'new_smoking_status', 'new_howmany', 'new_smok6num', 'new_smok6uni', 'new_pack_year', 'new_social', 'new_asthma', 'new_heartdis', 'new_diabetes', 'new_othmenill', 'new_income'))
+```
+*creating new variable 1: combining pack years and units*
+# Victoria Note: If anyone can assist with the combining of the two values that would be helpful. But only if this variable is worth working on 
+```{r}
+library(stringr)
+#ca_smoker_outcome <- ca_smoker_outcome %>% mutate(smok_daily = str_c(ca_smoker_outcome$new_smok6num," ", ca_smoker_outcome$new_smok6nuni)) 
+```
+
+*creating new variable 2: finding average pack years and creating low, average, high values*
+```{r}
+library(dplyr)
+summary(ca_smoker_outcome$new_pack_year)
+ca_smoker_outcome <- ca_smoker_outcome %>% mutate(pack_year_avg = mean(ca_smoker_outcome$new_pack_year, na.rm = TRUE))
+ca_smoker_outcome$pack_year_avg <- round(ca_smoker_outcome$pack_year_avg ,digit= 0)
+ca_smoker_outcome <- ca_smoker_outcome %>% mutate(pack_year_avg_level = case_when
+                                                  (new_pack_year > pack_year_avg ~ "above average", 
+                                                    new_pack_year < pack_year_avg ~ "below average",
+                                                    new_pack_year == pack_year_avg ~ "average"))
+
+```
+
+*creating new variable 3: reordering income to low, middle, high*
+```{r}
+unique(ca_smoker_outcome$new_income)
+ca_smoker_outcome <- ca_smoker_outcome %>% mutate(income_levels = case_when( 
+  new_income %in% c("$20,000 or less", "$20,001 to $30,000") ~ "Low income",
+new_income %in% c("$30,001 to $50,000", "$50,001 to $75,000") ~ "Middle Income",
+new_income %in% c("$75,001 to $100,000", "$100,001 to $150,000", "Over $150,000") ~ "High Income"))
+```
+
+*Cleaning - NA values*
+```{r}
+table(ca_smoker_outcome$new_smoking_status, useNA = "always")
+table(ca_smoker_outcome$new_smok6uni, useNA = "always")
+table(ca_smoker_outcome$new_social, useNA = "always")
+table(ca_smoker_outcome$new_asthma, useNA = "always")
+table(ca_smoker_outcome$new_heartdis, useNA = "always")
+table(ca_smoker_outcome$new_diabetes, useNA = "always")
+table(ca_smoker_outcome$new_othmenill, useNA = "always")
+table(ca_smoker_outcome$new_income, useNA = "always")
 ```
 
