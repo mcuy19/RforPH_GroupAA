@@ -233,3 +233,9 @@ table(ca_smoker_outcome$heartdis)
 #look at minimum, median, mean, maximum, and # of NAs in pack year
 summary(ca_smoker_outcome$new_pack_year)
 ```
+
+
+
+
+```
+
