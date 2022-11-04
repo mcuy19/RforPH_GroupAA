@@ -94,10 +94,6 @@ ca_outcome_race_selected$ID <- gsub("STAT","",as.character(ca_outcome_race_selec
 #joining two data sets by participant's unique ID
 ca_smoker_outcome <- merge(x = ca_smoker_selected, y = ca_outcome_race_selected, by = "ID")
 
-
-#Hi this is Danni, here is all the columns we need in one table, (pls let me know if any column needed is not here :) Also, the race part seems unclear, maybe we can summarize it in one column that including 15 races. For now, we can leave it here and I'll try how to combine all 15 race columns in one column later)
-
-#Hi this is Maddy! I combined the races into one column, please see code below :) 
 ```
 \newpage
 
@@ -262,9 +258,10 @@ ca_smoker_outcome <- select(ca_smoker_outcome, c('ID', 'new_smoking_status', 'ne
 ```
 *creating new variable 1: combining pack years and units*
 # Victoria Note: If anyone can assist with the combining of the two values that would be helpful. But only if this variable is worth working on 
+# Danni: I think we can leave the pack year number for calculation.
 ```{r}
 library(stringr)
-#ca_smoker_outcome <- ca_smoker_outcome %>% mutate(smok_daily = str_c(ca_smoker_outcome$new_smok6num," ", ca_smoker_outcome$new_smok6nuni)) 
+ca_smoker_outcome <- ca_smoker_outcome %>% mutate(smok_daily = str_c(ca_smoker_outcome$new_smok6num," ", ca_smoker_outcome$new_smok6nuni)) 
 ```
 
 *creating new variable 2: finding average pack years and creating low, average, high values*
@@ -299,5 +296,25 @@ table(ca_smoker_outcome$new_heartdis, useNA = "always")
 table(ca_smoker_outcome$new_diabetes, useNA = "always")
 table(ca_smoker_outcome$new_othmenill, useNA = "always")
 table(ca_smoker_outcome$new_income, useNA = "always")
+```
+- Data dictionary based on clean dataset (minimum 4 data elements), including:
+  - Variable name
+  - Data type
+  - Description
+- One or more tables with descriptive statistics for 4 data element
+
+```{r}
+variable_name <- c("ID", "new_smoking_status", "new_howmany", "new_smok6num", "new_somk6uni")
+
+data_type <- c("numeric", "character", "numeric", "numeric", "character")
+
+description <- c("Participants' ID", 
+                 "Current Smoking Status: Current Daily Smoker (Smoked >99 and smokes every day), Current Nondaily Smoker(Smoked >99 and smokes some days)", 
+              "During the past 30 days, on the days that you did smoke, about how many cigarettes did you HOWMANY usually smoke per day?",                  "How long have you been smoking on a daily basis?", "The unit of smol6num")
+
+data_dictionary <- data.frame(variable_name, data_type, description)
+data_dictionary
+
+# Danni: should we includes more column's description?
 ```
 
