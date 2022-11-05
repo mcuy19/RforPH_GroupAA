@@ -431,6 +431,5 @@ distribution_table <- kable(distribution_df, booktabs=T, align="lcccc",
                                     "Median Value", "Mean", 
                                     "Maximum Value"))
 distribution_table
-  
 ```
 
