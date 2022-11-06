@@ -449,7 +449,7 @@ test_variable_df <- ca_smoker_outcome %>%
                               new_smok6uni=="Days" ~ 365))
 
 test_variable_df <- test_variable_df %>% 
-  mutate(new_smok6num_inyears = new_smok6num/temp_var)
+  mutate(new_smok6num_inyears = new_smok6num/temp_var) 
 
 ```
 
