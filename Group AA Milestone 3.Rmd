@@ -433,3 +433,23 @@ distribution_table <- kable(distribution_df, booktabs=T, align="lcccc",
 distribution_table
 ```
 
+```{r other new variable brainstorm }
+
+head(ca_smoker_outcome)
+
+#if in years, leave as is
+#if in months, divide by 12
+#could add new column, conditional = 1 if units is in years, equals 12 if units is in months
+#then create another new column for daily smoking length in years
+#then update formula for pack years to reflect this
+
+test_variable_df <- ca_smoker_outcome %>%
+  mutate(temp_var = case_when(new_smok6uni=="Months" ~ 12,
+                              new_smok6uni=="Years" ~ 1, 
+                              new_smok6uni=="Days" ~ 365))
+
+test_variable_df <- test_variable_df %>% 
+  mutate(new_smok6num_inyears = new_smok6num/temp_var)
+
+```
+
