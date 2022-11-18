@@ -12,46 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-
-```{r hi}
-hi <- "hi group AA!"
-print(hi)
-```
-
-\newpage
-
-## Part 1: Describing the dataset 
-
-* What is the data source? (1-2 sentences on where the data is coming from, dates included, etc.) 
-
-The data comes from the 2011 California Smokers' Cohort (CSC) and was the ninth of a 
-series of triennial surveys called the California Tobacco Surveys (CTS) conducted 
-since 1990. It was sponsored by the State of California's Department of Public Health 
-through a contract with the University of California at San Diego (UCSD). Data 
-collection for CLSS began on July 8, 2011 and was completed on December 8, 2011.
-
-* How does the dataset relate to the group problem statement and question? 
-
-Smoking has been shown to lead to various poor health outcomes. However, some smokers 
-are more prone than others to these adverse effects. The question is what characteristics 
-and behaviors among smokers in California led to adverse health outcomes.
-
-\newpage
-
-## Part 2: Import statement 
-
-* Use appropriate import function and package based on the type of file 
-* Utilize function arguments to control relevant components (i.e. change column types, 
-column names, missing values, etc.) 
-* Document the import process 
-
-```{r importing demographic data}
+```{r importing demographic data, include=FALSE}
 #import CA Smoker data set
 ca_smoker_info <- read_csv("~/PHW251_Fall2022/phw251_projectdata/ca_csc_smoker_data.csv")
 
@@ -65,12 +27,18 @@ ca_smoker_selected$howmany <- as.numeric(ca_smoker_selected$howmany)
 ca_smoker_selected$smok6num <- as.numeric(ca_smoker_selected$smok6num)
 
 ca_smoker_selected <- ca_smoker_selected %>%
-  mutate(pack_year = howmany/20*smok6num)
+  mutate(temp_var = case_when(smok6uni=="Months" ~ 12,
+                              smok6uni=="Years" ~ 1, 
+                              smok6uni=="Days" ~ 365))
+
+ca_smoker_selected <- ca_smoker_selected %>%
+  mutate(smok6num_inyears = smok6num/temp_var) 
+
+ca_smoker_selected <- ca_smoker_selected %>%
+  mutate(pack_year = howmany/20*smok6num_inyears)
 ```
 
-\newpage
-
-```{r importing outcome data}
+```{r importing outcome data, include=FALSE}
 #import CA smoker disease outcome and race data set
 ca_outcome_race <- read_csv("~/PHW251_Fall2022/phw251_projectdata/ca_csc_outcome_race_data.csv")
 
@@ -88,9 +56,8 @@ rename (social = SOCIAL, asthma = ASTHMA, heartdis = HEARTDIS, diabetes = DIABET
 
 ```
 
-\newpage
 
-```{r}
+```{r joining datasets, include=FALSE}
 #remove "DIS" & "STAT" in the "ID" column 
 ca_outcome_race_selected$ID <- gsub("DIS","",as.character(ca_outcome_race_selected$ID))
 ca_outcome_race_selected$ID <- gsub("STAT","",as.character(ca_outcome_race_selected$ID))
@@ -99,9 +66,9 @@ ca_outcome_race_selected$ID <- gsub("STAT","",as.character(ca_outcome_race_selec
 ca_smoker_outcome <- merge(x = ca_smoker_selected, y = ca_outcome_race_selected, by = "ID")
 
 ```
-\newpage
 
-```{r create single race variable}
+
+```{r create single race variable, include=FALSE}
 
 #use mutate to combine 15 binary race columns into one categorical variable called "race"
 
@@ -144,24 +111,7 @@ ca_smoker_outcome <- select(ca_smoker_outcome,-race01,
 ```
 
 
-
-\newpage
-
-## Part 3: Identify data types for 5+ data elements/columns/variables 
-
-* Identify 5+ data elements required for your specified scenario. If <5 elements are required to complete
-the analysis, please choose additional variables of interest in the data set to explore in this milestone. 
-* Utilize functions or resources in RStudio to determine the types of each data element (i.e. character, numeric, factor) 
-* Identify the desired type/format for each variable—will you need to convert any columns to numeric or another type? 
-
-Five variables of interest:
-1. Smoking status
-2. Race
-3. Income
-4. Heart Disease
-5. Pack years
-
-```{r}
+```{r converting to factors, include=FALSE}
 #identify types of each data element
 str(ca_smoker_outcome)
 
@@ -181,16 +131,8 @@ ca_smoker_outcome <- ca_smoker_outcome %>% mutate(new_howmany = as.numeric(howma
 summary(ca_smoker_outcome$new_howmany)
 ```
 
-\newpage
 
-## Part 4: Provide a basic description of the 5+ data elements 
-
-* Numeric: mean, median, range 
-* Character:  unique values/categories 
-* Or any other descriptives that will be useful to the analysis 
-
-*Smoking status:*
-```{r explore smoking status variable}
+```{r explore smoking status variable, include=FALSE}
 #number of unique categories 
 ca_smoker_outcome %>% summarize(n_distinct(smoking_status))
 
@@ -200,8 +142,9 @@ ca_smoker_outcome %>% summarize(unique(smoking_status))
 #tabulate smoking status
 table(ca_smoker_outcome$smoking_status)
 ```
-*Race:*
-```{r explore race variable}
+
+
+```{r explore race variable, include=FALSE}
 #number of unique categories 
 ca_smoker_outcome %>% summarize(n_distinct(race))
 
@@ -211,8 +154,9 @@ ca_smoker_outcome %>% summarize(unique(race))
 #tabulate smoking status
 table(ca_smoker_outcome$race)
 ```
-*Income:*
-```{r explore income variable}
+
+
+```{r explore income variable, include=FALSE}
 #number of unique categories 
 ca_smoker_outcome %>% summarize(n_distinct(income))
 
@@ -222,8 +166,9 @@ ca_smoker_outcome %>% summarize(unique(income))
 #tabulate income
 table(ca_smoker_outcome$income)
 ```
-*Heart Disease:*
-```{r explore heart disease outcome variable}
+
+
+```{r explore heart disease outcome variable, include=FALSE}
 #number of unique categories 
 ca_smoker_outcome %>% summarize(n_distinct(heartdis))
 
@@ -234,27 +179,29 @@ ca_smoker_outcome %>% summarize(unique(heartdis))
 table(ca_smoker_outcome$heartdis)
 ```
 
-*Pack Years:*
-```{r explore pack years variable}
+
+```{r explore pack years variable, include=FALSE}
 
 #look at minimum, median, mean, maximum, and # of NAs in pack year
 summary(ca_smoker_outcome$new_pack_year)
 ```
+
 \newpage
 
 # Milestone 3
 
-* Subset rows or columns, as needed
-* Create new variables needed for analysis (minimum 2)
-* New variables should be created based on existing columns; for example
-* Calculating a rate
-* Combining character strings
-* Reordering income to CA - low, med, high
-* Pack years -> find avg, and categorize those below “low” and above “high”
-* If no new values are needed for final tables/graphs, please create 2 new variables anyway
+-   Subset rows or columns, as needed
+-   Create new variables needed for analysis (minimum 2)
+-   New variables should be created based on existing columns; for example
+-   Calculating a rate
+-   Combining character strings
+-   Reordering income to CA - low, med, high
+-   Pack years -\> find avg, and categorize those below "low" and above "high"
+-   If no new values are needed for final tables/graphs, please create 2 new variables anyway
 
 *taking out values that include don't know to NA*
-```{r}
+
+```{r change to NA}
 library(tidyverse)
 library(lubridate)
 
@@ -271,19 +218,29 @@ ca_smoker_outcome <- select(ca_smoker_outcome,
                               'new_social', 'new_asthma', 'new_heartdis',
                               'new_diabetes', 'new_othmenill', 'new_income'))
 ```
+
 \newpage
 
-*creating new variable 1: combining pack years and units*
-# Victoria Note: If anyone can assist with the combining of the two values that would be helpful. But only if this variable is worth working on 
-# Danni: I think we can leave the pack year number for calculation.
+*creating new variable 1: standardizing numbers used to calculate pack-years variable to years unit*
+
 ```{r}
-library(stringr)
+#create temporary variable for calculation
+ca_smoker_outcome <- ca_smoker_outcome %>%
+  mutate(temp_var = case_when(new_smok6uni=="Months" ~ 12,
+                              new_smok6uni=="Years" ~ 1, 
+                              new_smok6uni=="Days" ~ 365))
+
+#do calculation
 ca_smoker_outcome <- ca_smoker_outcome %>% 
-  mutate(smok_daily = str_c(ca_smoker_outcome$new_smok6num," ",
-                            ca_smoker_outcome$new_smok6nuni)) 
+  mutate(new_smok6num_inyears = new_smok6num/temp_var) 
+
+#drop unnecessary temporary variable
+ca_smoker_outcome <-  subset(ca_smoker_outcome, select = -c(temp_var))
+
 ```
 
 *creating new variable 2: finding average pack years and creating low, average, high values*
+
 ```{r}
 library(dplyr)
 summary(ca_smoker_outcome$new_pack_year)
@@ -298,6 +255,7 @@ ca_smoker_outcome <- ca_smoker_outcome %>% mutate(pack_year_avg_level = case_whe
 ```
 
 *creating new variable 3: characterizing income as low, middle, high*
+
 ```{r}
 unique(ca_smoker_outcome$new_income)
 ca_smoker_outcome <- ca_smoker_outcome %>% mutate(income_levels = case_when( 
@@ -309,6 +267,7 @@ new_income %in% c("$75,001 to $100,000", "$100,001 to $150,000", "Over $150,000"
 \newpage
 
 *Cleaning - NA values using tables to ensure no weird values*
+
 ```{r}
 table(ca_smoker_outcome$new_smoking_status, useNA = "always")
 table(ca_smoker_outcome$new_smok6uni, useNA = "always")
@@ -323,9 +282,10 @@ table(ca_smoker_outcome$new_income, useNA = "always")
 \newpage
 
 ## Data dictionary based on clean dataset (minimum 4 data elements), including:
-* Variable name
-* Data type
-* Description
+
+-   Variable name
+-   Data type
+-   Description
 
 ```{r}
 variable_name <- c("ID", "new_smoking_status", "new_howmany", "new_smok6num", 
@@ -362,10 +322,14 @@ data_dictionary <- data_dictionary %>%
     "Variable Name" = variable_name,
     "Data Type" = data_type,
     "Description" = description)
-data_dictionary
-    
 
+#load kable library
+library(knitr)
+library(kableExtra)
+    
+kable(data_dictionary)
 ```
+
 \newpage
 
 ## One or more tables with descriptive statistics for 4 data element
@@ -373,9 +337,6 @@ data_dictionary
 ### Table 1: Smooker Outcomes Distributions
 
 ```{r first table for outcomes distribution}
-#load kable library
-library(knitr)
-library(kableExtra)
 
 #calculate data for proportion table
 summary(ca_smoker_outcome$new_social)
@@ -407,6 +368,7 @@ outcomes_table <- kable(proportion_df, booktabs=T, align="l",
 outcomes_table
 
 ```
+
 \newpage
 
 ### Table 2: Spread of Continuous Variables
@@ -433,23 +395,8 @@ distribution_table <- kable(distribution_df, booktabs=T, align="lcccc",
 distribution_table
 ```
 
-```{r other new variable brainstorm }
+```{r}
+end <- "The End"
 
-head(ca_smoker_outcome)
-
-#if in years, leave as is
-#if in months, divide by 12
-#could add new column, conditional = 1 if units is in years, equals 12 if units is in months
-#then create another new column for daily smoking length in years
-#then update formula for pack years to reflect this
-
-test_variable_df <- ca_smoker_outcome %>%
-  mutate(temp_var = case_when(new_smok6uni=="Months" ~ 12,
-                              new_smok6uni=="Years" ~ 1, 
-                              new_smok6uni=="Days" ~ 365))
-
-test_variable_df <- test_variable_df %>% 
-  mutate(new_smok6num_inyears = new_smok6num/temp_var)
-
+print(end)
 ```
-
