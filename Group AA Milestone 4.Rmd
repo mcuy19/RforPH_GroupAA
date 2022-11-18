@@ -515,7 +515,7 @@ C<- ggplot(data = diabetes_by_income, aes(x = new_diabetes, y= diabetes_count)) 
 
 \newpage
 
-## All dodged barcharts combined together - Asthma, Heart Diesease and Diabetes
+## All dodged barcharts combined together - Asthma, Heart Diesease and Diabetes - Victoria
 
 ```{r}
 # The following code allows download of ggpubr to utilize the ggarrange function to combine all seperate ggplots together. 
