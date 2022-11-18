@@ -484,7 +484,7 @@ asthma_by_income <- test_variable_df %>% select(new_asthma, income_levels) %>% g
 
 A<- ggplot(data = na.omit(asthma_by_income), aes(x = new_asthma, y= asthma_count)) +
   geom_bar(aes(fill = income_levels), stat = "identity", position = position_dodge()) +
-    scale_fill_discrete(name = "Income Level") + labs(x= "Asthama Status", y = "# of Patients", title = "Patients and Their Asthma Status Distributed by Income Status", caption = "Note: Patients who did not respond were excluded")
+    scale_fill_discrete(name = "Income Level") + labs(x= "Prevalence of Asthama", y = "# of Patients", title = "Patients and Their Asthma Status Distributed by Income Status", caption = "Note: Patients who did not respond were excluded")
 ```
 \newpage
 
@@ -495,7 +495,7 @@ heartdis_by_income <- test_variable_df %>% select(new_heartdis, income_levels) %
 
 B <- ggplot(data = heartdis_by_income, aes(x = new_heartdis, y= heartdis_count)) +
   geom_bar(aes(fill = income_levels), stat = "identity", position = position_dodge()) +
-  scale_fill_discrete(name = "Income Level") + labs(x= "Heart Disease Status", y = "# of Patients", title = "Patients and Their Heart Disease Status Distributed by Income Status", caption = "Note: Patients who did not respond were excluded")
+  scale_fill_discrete(name = "Income Level") + labs(x= "Prevalence of Heart Disease", y = "# of Patients", title = "Patients and Their Heart Disease Status Distributed by Income Status", caption = "Note: Patients who did not respond were excluded")
 
 
 ```
@@ -507,9 +507,7 @@ diabetes_by_income <- test_variable_df %>% select(new_diabetes, income_levels) %
 
 C<- ggplot(data = diabetes_by_income, aes(x = new_diabetes, y= diabetes_count)) +
   geom_bar(aes(fill = income_levels), stat = "identity", position = position_dodge()) +
-  scale_fill_manual(values=c("#9933FF",
-                             "#33FFFF",
-                             "red"), name = "Income Level") + labs(x= "Diabetes Status", y = "# of Patients", title = "Patients and Their Diabetes Status Distributed by Income Status", caption = "Note: Patients who did not respond were excluded")
+  scale_fill_discrete(name = "Income Level") + labs(x= "Prevalence of Diabetes", y = "# of Patients", title = "Patients and Their Diabetes Status Distributed by Income Status", caption = "Note: Patients who did not respond were excluded")
  
 ```
 
