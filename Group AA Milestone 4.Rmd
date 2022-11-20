@@ -270,10 +270,11 @@ visual3_df <- test_variable_df %>%
          "Other Mental Health" =new_othmenill)
 #create table one
 visual3table <- CreateTableOne(data=visual3_df,
-                               vars=c("Pack Years", "Asthma", "Diabetes", "Heart Disease", "Other Mental Health"),
-                               factorVars = c("Asthma", "Diabetes", "Heart Disease", "Other Mental Health", "Above/Below Average Pack Years"),
-                               strata="Above/Below Average Pack Years")
-kable(print(visual3table, showAllLevels=TRUE), caption="Pack Years and Health Outcomes Stratified by Above/Below Average Pack Years")
+  vars=c("Pack Years", "Asthma", "Diabetes", "Heart Disease", "Other Mental Health"),
+  factorVars = c("Asthma", "Diabetes", "Heart Disease", "Other Mental Health", "Above/Below Average Pack Years"),
+  strata="Above/Below Average Pack Years")
+kable(print(visual3table, showAllLevels=TRUE), 
+      caption="Pack Years and Health Outcomes Stratified by Above/Below Average Pack Years")
 
 ```
 ### Interpretation: 
@@ -374,7 +375,6 @@ levels(test_variable_df$income_levels)
 test_variable_df$pack_year_avg_level <- ordered(test_variable_df$pack_year_avg_level, levels = c("below average", "average", "above average"))
 levels(test_variable_df$pack_year_avg_level)
 ```
-\newpage
 
 ## Asthma data set and ggplot
 
@@ -425,11 +425,11 @@ C<- ggplot(data = diabetes_by_income, aes(x = new_diabetes, y= diabetes_count)) 
 
 \newpage
 
-## All dodged barcharts combined together - Asthma, Heart Disease and Diabetes - Victoria
+## Combined Dodged Barcharts displaying Prevalence of Asthma, Heart Disease and Diabetes Stratified by Income Status
 
 ```{r, include=FALSE}
 # The following code allows download of ggpubr to utilize the ggarrange function to 
-# combine all seperate ggplots together. 
+# combine all separate ggplots together. 
 
 if(!require(devtools)) install.packages("devtools")
 devtools::install_github("kassambara/ggpubr")
@@ -444,6 +444,8 @@ figure_one <- ggarrange(A, B, C, ncol = 1, nrow = 3)
 figure_one
 
 ```
+### Interpretation
+This graph displays the prevalence of three of our dependent variables: health outcomes of interest stratified by income status, our independent variable of interest. 
 
 \newpage
 
