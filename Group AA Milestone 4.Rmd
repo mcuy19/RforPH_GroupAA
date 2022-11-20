@@ -1,9 +1,9 @@
 ---
-title: "Group AA Milestone 3"
+title: "Group AA Milestone 4"
 output:
   pdf_document: default
   word_document: default
-date: '2022-11-01'
+date: '2022-11-18'
 group members: Victoria, Danni, Maddy
 editor_options: 
   markdown: 
@@ -15,54 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax
-for authoring HTML, PDF, and MS Word documents. For more details on
-using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that
-includes both content as well as the output of any embedded R code
-chunks within the document. You can embed an R code chunk like this:
-
-```{r hi}
-hi <- "hi group AA!"
-print(hi)
-```
-
-\newpage
-
-## Part 1: Describing the dataset
-
--   What is the data source? (1-2 sentences on where the data is coming
-    from, dates included, etc.)
-
-The data comes from the 2011 California Smokers' Cohort (CSC) and was
-the ninth of a series of triennial surveys called the California Tobacco
-Surveys (CTS) conducted since 1990. It was sponsored by the State of
-California's Department of Public Health through a contract with the
-University of California at San Diego (UCSD). Data collection for CLSS
-began on July 8, 2011 and was completed on December 8, 2011.
-
--   How does the dataset relate to the group problem statement and
-    question?
-
-Smoking has been shown to lead to various poor health outcomes. However,
-some smokers are more prone than others to these adverse effects. The
-question is what characteristics and behaviors among smokers in
-California led to adverse health outcomes.
-
-\newpage
-
-## Part 2: Import statement
-
--   Use appropriate import function and package based on the type of
-    file
--   Utilize function arguments to control relevant components (i.e.
-    change column types, column names, missing values, etc.)
--   Document the import process
-
-```{r importing demographic data}
+```{r importing demographic data, include=FALSE}
 #import CA Smoker data set
 ca_smoker_info <- read_csv("~/PHW251_Fall2022/phw251_projectdata/ca_csc_smoker_data.csv")
 
@@ -79,9 +32,7 @@ ca_smoker_selected <- ca_smoker_selected %>%
   mutate(pack_year = howmany/20*smok6num)
 ```
 
-\newpage
-
-```{r importing outcome data}
+```{r importing outcome data, include=FALSE}
 #import CA smoker disease outcome and race data set
 ca_outcome_race <- read_csv("~/PHW251_Fall2022/phw251_projectdata/ca_csc_outcome_race_data.csv")
 
@@ -99,9 +50,7 @@ rename (social = SOCIAL, asthma = ASTHMA, heartdis = HEARTDIS, diabetes = DIABET
 
 ```
 
-\newpage
-
-```{r}
+```{r, include=FALSE}
 #remove "DIS" & "STAT" in the "ID" column 
 ca_outcome_race_selected$ID <- gsub("DIS","",as.character(ca_outcome_race_selected$ID))
 ca_outcome_race_selected$ID <- gsub("STAT","",as.character(ca_outcome_race_selected$ID))
@@ -111,9 +60,8 @@ ca_smoker_outcome <- merge(x = ca_smoker_selected, y = ca_outcome_race_selected,
 
 ```
 
-\newpage
 
-```{r create single race variable}
+```{r create single race variable, include=FALSE}
 
 #use mutate to combine 15 binary race columns into one categorical variable called "race"
 
@@ -155,23 +103,7 @@ ca_smoker_outcome <- select(ca_smoker_outcome,-race01,
 
 ```
 
-\newpage
-
-## Part 3: Identify data types for 5+ data elements/columns/variables
-
--   Identify 5+ data elements required for your specified scenario. If
-    \<5 elements are required to complete the analysis, please choose
-    additional variables of interest in the data set to explore in this
-    milestone.
--   Utilize functions or resources in RStudio to determine the types of
-    each data element (i.e. character, numeric, factor)
--   Identify the desired type/format for each variable---will you need
-    to convert any columns to numeric or another type?
-
-Five variables of interest: 1. Smoking status 2. Race 3. Income 4. Heart
-Disease 5. Pack years
-
-```{r}
+```{r, include=FALSE}
 #identify types of each data element
 str(ca_smoker_outcome)
 
@@ -191,17 +123,7 @@ ca_smoker_outcome <- ca_smoker_outcome %>% mutate(new_howmany = as.numeric(howma
 summary(ca_smoker_outcome$new_howmany)
 ```
 
-\newpage
-
-## Part 4: Provide a basic description of the 5+ data elements
-
--   Numeric: mean, median, range
--   Character: unique values/categories
--   Or any other descriptives that will be useful to the analysis
-
-*Smoking status:*
-
-```{r explore smoking status variable}
+```{r explore smoking status variable, include=FALSE}
 #number of unique categories 
 ca_smoker_outcome %>% summarize(n_distinct(smoking_status))
 
@@ -212,9 +134,8 @@ ca_smoker_outcome %>% summarize(unique(smoking_status))
 table(ca_smoker_outcome$smoking_status)
 ```
 
-*Race:*
 
-```{r explore race variable}
+```{r explore race variable, include=FALSE}
 #number of unique categories 
 ca_smoker_outcome %>% summarize(n_distinct(race))
 
@@ -225,9 +146,7 @@ ca_smoker_outcome %>% summarize(unique(race))
 table(ca_smoker_outcome$race)
 ```
 
-*Income:*
-
-```{r explore income variable}
+```{r explore income variable, include=FALSE}
 #number of unique categories 
 ca_smoker_outcome %>% summarize(n_distinct(income))
 
@@ -238,9 +157,7 @@ ca_smoker_outcome %>% summarize(unique(income))
 table(ca_smoker_outcome$income)
 ```
 
-*Heart Disease:*
-
-```{r explore heart disease outcome variable}
+```{r explore heart disease outcome variable, include=FALSE}
 #number of unique categories 
 ca_smoker_outcome %>% summarize(n_distinct(heartdis))
 
@@ -250,34 +167,13 @@ ca_smoker_outcome %>% summarize(unique(heartdis))
 #tabulate income
 table(ca_smoker_outcome$heartdis)
 ```
-
-*Pack Years:*
-
-```{r explore pack years variable}
+```{r explore pack years variable, include=FALSE}
 
 #look at minimum, median, mean, maximum, and # of NAs in pack year
 summary(ca_smoker_outcome$new_pack_year)
 ```
 
-\newpage
-
-# Milestone 3
-
--   Subset rows or columns, as needed
--   Create new variables needed for analysis (minimum 2)
--   New variables should be created based on existing columns; for
-    example
--   Calculating a rate
--   Combining character strings
--   Reordering income to CA - low, med, high
--   Pack years -\> find avg, and categorize those below "low" and above
-    "high"
--   If no new values are needed for final tables/graphs, please create 2
-    new variables anyway
-
-*taking out values that include don't know to NA*
-
-```{r}
+```{r, include=FALSE}
 library(tidyverse)
 library(lubridate)
 
@@ -295,21 +191,14 @@ ca_smoker_outcome <- select(ca_smoker_outcome,
                               'new_diabetes', 'new_othmenill', 'new_income'))
 ```
 
-\newpage
-
-*creating new variable 1: combining pack years and units*
-
-```{r}
+```{r, include=FALSE}
 library(stringr)
 ca_smoker_outcome <- ca_smoker_outcome %>% 
   mutate(smok_daily = str_c(ca_smoker_outcome$new_smok6num," ",
                             ca_smoker_outcome$new_smok6nuni)) 
 ```
 
-*creating new variable 2: finding average pack years and creating low,
-average, high values*
-
-```{r}
+```{r, include=FALSE}
 library(dplyr)
 summary(ca_smoker_outcome$new_pack_year)
 ca_smoker_outcome <- ca_smoker_outcome %>% 
@@ -322,9 +211,7 @@ ca_smoker_outcome <- ca_smoker_outcome %>% mutate(pack_year_avg_level = case_whe
 
 ```
 
-*creating new variable 3: characterizing income as low, middle, high*
-
-```{r}
+```{r, include=FALSE}
 unique(ca_smoker_outcome$new_income)
 ca_smoker_outcome <- ca_smoker_outcome %>% mutate(income_levels = case_when( 
   new_income %in% c("$20,000 or less", "$20,001 to $30,000") ~ "Low Income",
@@ -332,11 +219,7 @@ new_income %in% c("$30,001 to $50,000", "$50,001 to $75,000") ~ "Middle Income",
 new_income %in% c("$75,001 to $100,000", "$100,001 to $150,000", "Over $150,000") ~ "High Income")) 
 ```
 
-\newpage
-
-*Cleaning - NA values using tables to ensure no weird values*
-
-```{r}
+```{r, include=FALSE}
 table(ca_smoker_outcome$new_smoking_status, useNA = "always")
 table(ca_smoker_outcome$new_smok6uni, useNA = "always")
 table(ca_smoker_outcome$new_social, useNA = "always")
@@ -347,13 +230,299 @@ table(ca_smoker_outcome$new_othmenill, useNA = "always")
 table(ca_smoker_outcome$new_income, useNA = "always")
 ```
 
+```{r other new variable brainstorm, include=FALSE}
+
+head(ca_smoker_outcome)
+
+#if in years, leave as is
+#if in months, divide by 12
+#could add new column, conditional = 1 if units is in years, equals 12 if units is in months
+#then create another new column for daily smoking length in years
+#then update formula for pack years to reflect this
+
+test_variable_df <- ca_smoker_outcome %>%
+  mutate(temp_var = case_when(new_smok6uni=="Months" ~ 12,
+                              new_smok6uni=="Years" ~ 1, 
+                              new_smok6uni=="Days" ~ 365))
+
+test_variable_df <- test_variable_df %>% 
+  mutate(new_smok6num_inyears = new_smok6num/temp_var)
+
+```
+
 \newpage
 
-## Data dictionary based on clean dataset (minimum 4 data elements), including:
+# Milestone 4: Visualizations
 
--   Variable name
--   Data type
--   Description
+## Visual 1: Table One of Pack Years and Health Outcomes
+```{r}
+library(kableExtra)
+library(tableone) #load table one library
+
+#build new dataset with only necessary variables
+visual3_df <- test_variable_df %>% 
+  select(new_asthma, new_diabetes, new_heartdis, new_pack_year, new_othmenill, pack_year_avg_level) %>%
+  rename(Asthma=new_asthma,
+         "Above/Below Average Pack Years" = pack_year_avg_level,
+         Diabetes=new_diabetes, 
+         "Heart Disease"=new_heartdis, 
+         "Pack Years"=new_pack_year, 
+         "Other Mental Health" =new_othmenill)
+#create table one
+visual3table <- CreateTableOne(data=visual3_df,
+                               vars=c("Pack Years", "Asthma", "Diabetes", "Heart Disease", "Other Mental Health"),
+                               factorVars = c("Asthma", "Diabetes", "Heart Disease", "Other Mental Health", "Above/Below Average Pack Years"),
+                               strata="Above/Below Average Pack Years")
+kable(print(visual3table, showAllLevels=TRUE), caption="Pack Years and Health Outcomes Stratified by Above/Below Average Pack Years")
+
+```
+### Interpretation: 
+This table is a "table one": a common table of descriptive statistics for a study sample. This table one displays descriptive statistics for our health outcomes of interest, as well as the pack years variable. All are stratified by one of our factor variables, "above/below pack years average", which displays
+whether the participant's pack years calculated in Milestone 3 were above, at, or below the average pack years of the entire sample. 
+
+\newpage
+
+## Visual 2: Outcome and Income Cross Tabulations 
+
+```{r, include=FALSE}
+library(janitor)
+library(kableExtra)
+library(tidyverse)
+```
+
+```{r}
+# For asthma status data set
+a <- test_variable_df %>%
+  tabyl(new_asthma, income_levels, show_na = FALSE) %>%
+  adorn_totals(c("col", "row")) %>% 
+  as.data.frame() %>% 
+  rename(Asthma_status = new_asthma)
+
+a <- a[, c("Asthma_status", "High Income", "Middle Income", "Low Income", "Total")]
+
+a %>% 
+  kbl(align = "l") %>% 
+  kable_styling(latex_options = "striped") %>% 
+  add_header_above(c(" " = 1, "Income Level" = 3, " " = 1)) %>% 
+  add_header_above(data.frame("Cross Tab of Asthma Status x Income Level", 5))
+```
+
+### Interpretation: 
+Of the 176 patients with asthma, 30 were reported as the high-income group, 49 as the middle-income group, and 97 as the low-income group. 
+Of the 762 study participants without asthma, 187 were reported as the high-income group, 290 as the middle-income group, and 285 as the low-income group.  
+
+```{r}
+# For heart disease status data set
+b <- test_variable_df %>%
+  tabyl(new_heartdis, income_levels, show_na = FALSE) %>%
+  adorn_totals(c("col", "row")) %>% 
+  as.data.frame() %>% 
+  rename(Heartdis_status = new_heartdis)
+
+b <- b[, c("Heartdis_status", "High Income", "Middle Income", "Low Income", "Total")]
+
+b %>% 
+  kbl(align = "l") %>% 
+  kable_styling(latex_options = "striped") %>% 
+  add_header_above(c(" " = 1, "Income Level" = 3, " " = 1)) %>% 
+  add_header_above(data.frame("Cross Tab of Heart Disease Status x Income Level", 5))
+```
+Danni: For the "(DO NOT READ) Don't know" row, the level of variable factor is still there, not quite sure how to remove it
+
+### Interpretation:
+Of the 77 patients with heart disease, 14 were reported as the high-income group, 20 as the middle-income group, and 43 as the low-income group. 
+Of the 858 study participants without heart disease, 202 were reported as the high-income group, 319 as the middle-income group, and 337 as the low-income group. 
+
+```{r}
+# For diabetes status data set
+c <- test_variable_df %>%
+  tabyl(new_diabetes, income_levels, show_na = FALSE) %>%
+  adorn_totals(c("col", "row")) %>% 
+  as.data.frame() %>% 
+  rename(Diabetes_status = new_diabetes)
+
+c <- c[, c("Diabetes_status", "High Income", "Middle Income", "Low Income", "Total")]
+
+c %>% 
+  kbl(align = "l") %>% 
+  kable_styling(latex_options = "striped") %>% 
+  add_header_above(c(" " = 1, "Income Level" = 3, " " = 1)) %>% 
+  add_header_above(data.frame("Cross Tab of Diabetes Status x Income Level", 5))
+```
+
+### Interpretation:
+Of the 77 patients with heart disease, 14 were reported as the high-income group, 20 as the middle-income group, and 43 as the low-income group. 
+Of the 858 study participants without heart disease, 202 were reported as the high-income group, 319 as the middle-income group, and 337 as the low-income group. 
+
+\newpage
+
+## Visual 3: Of those who do have health outcomes, how are they distributed by income status. How are those that do not have health outcomes distributed by income?
+
+```{r, include=FALSE}
+library(ggplot2)
+# Changed New variables to factors from most recent data set 
+test_variable_df$pack_year_avg_level <- as.factor(test_variable_df$pack_year_avg_level)
+test_variable_df$income_levels <- factor(test_variable_df$income_levels)
+test_variable_df$smok_daily <- as.numeric(test_variable_df$smok_daily)
+str(test_variable_df)
+
+#Adding levels to Income Level 
+test_variable_df$income_levels <- ordered(test_variable_df$income_levels, levels = c("Low Income", "Middle Income", "High Income"))
+levels(test_variable_df$income_levels)
+
+#Adding levels to pack year average level
+test_variable_df$pack_year_avg_level <- ordered(test_variable_df$pack_year_avg_level, levels = c("below average", "average", "above average"))
+levels(test_variable_df$pack_year_avg_level)
+```
+\newpage
+
+## Asthma data set and ggplot
+
+```{r}
+asthma_by_income <- test_variable_df %>% select(new_asthma, income_levels) %>% 
+  group_by(new_asthma, income_levels) %>%  mutate(asthma_count = n()) %>% 
+  distinct(income_levels,.keep_all = TRUE) %>% na.omit()
+
+A <- ggplot(data = na.omit(asthma_by_income), aes(x = new_asthma, y= asthma_count)) +
+  geom_bar(aes(fill = income_levels), stat = "identity", position = position_dodge()) +
+    scale_fill_discrete(name = "Income Level") + 
+  labs(x= "Prevalence of Asthama", y = "# of Patients",
+       title = "Patients and Their Asthma Status Distributed by Income Status", 
+       caption = "Note: Patients who did not respond were excluded")
+```
+
+## Heart Disease data set and ggplot
+
+```{r}
+heartdis_by_income <- test_variable_df %>% select(new_heartdis, income_levels) %>% 
+  group_by(new_heartdis, income_levels) %>%  mutate(heartdis_count = n()) %>% 
+  distinct(income_levels,.keep_all = TRUE) %>% na.omit()
+
+B <- ggplot(data = heartdis_by_income, aes(x = new_heartdis, y= heartdis_count)) +
+  geom_bar(aes(fill = income_levels), stat = "identity", position = position_dodge()) +
+  scale_fill_discrete(name = "Income Level") + 
+  labs(x= "Prevalence of Heart Disease", y = "# of Patients", 
+       title = "Patients and Their Heart Disease Status Distributed by Income Status",
+       caption = "Note: Patients who did not respond were excluded")
+
+```
+
+## Diabetes data set and ggplot
+
+```{r}
+diabetes_by_income <- test_variable_df %>% select(new_diabetes, income_levels) %>% 
+  group_by(new_diabetes, income_levels) %>%  mutate(diabetes_count = n()) %>% 
+  distinct(income_levels,.keep_all = TRUE) %>% na.omit()
+
+C<- ggplot(data = diabetes_by_income, aes(x = new_diabetes, y= diabetes_count)) +
+  geom_bar(aes(fill = income_levels), stat = "identity", position = position_dodge()) +
+  scale_fill_discrete(name = "Income Level") + 
+  labs(x= "Prevalence of Diabetes", y = "# of Patients", 
+       title = "Patients and Their Diabetes Status Distributed by Income Status",
+       caption = "Note: Patients who did not respond were excluded")
+ 
+```
+
+\newpage
+
+## All dodged barcharts combined together - Asthma, Heart Disease and Diabetes - Victoria
+
+```{r, include=FALSE}
+# The following code allows download of ggpubr to utilize the ggarrange function to 
+# combine all seperate ggplots together. 
+
+if(!require(devtools)) install.packages("devtools")
+devtools::install_github("kassambara/ggpubr")
+install.packages("ggpubr")
+library(ggpubr)
+```
+```{r}
+# Hidden code allows download of ggpubr to utilize the ggarrange function to 
+# combine all seperate ggplots together. 
+
+figure_one <- ggarrange(A, B, C, ncol = 1, nrow = 3)
+figure_one
+
+```
+
+\newpage
+
+## Bonus Table from Milestone 3: Smoker Outcomes Distributions
+
+```{r first table for outcomes distribution}
+#load kable library
+library(knitr)
+library(kableExtra)
+
+#calculate data for proportion table
+summary(ca_smoker_outcome$new_social)
+summary(ca_smoker_outcome$new_asthma)
+summary(ca_smoker_outcome$new_heartdis)
+summary(ca_smoker_outcome$new_diabetes)
+summary(ca_smoker_outcome$new_othmenill)
+
+#build dataframe
+outcome_variable <- c("Social Smoker", "Asthma", "Heart Disease", "Diabetes", "Other Mental Illness")
+yes_count_variable <- c(748, 191, 81, 81, 171)
+no_count_variable <- c(241, 809, 916, 916, 820)
+NA_count_variable <- c(11, 0, 3, 3, 9)
+yes_prop_variable <- c("74.8%", "19.1%", "8.1%", "8.0%", "17.1%")
+no_prop_variable <- c("24.1%", "80.9%", "91.6%", "91.6%", "82.0%")
+NA_prop_variable <- c("1.1%", "0", "0.3%", "0.3%", "0.9%")
+
+proportion_df <- data.frame(outcome_variable, yes_count_variable, 
+                               no_count_variable, NA_count_variable,
+                               yes_prop_variable, no_prop_variable,
+                               NA_prop_variable)
+
+#create table
+outcomes_table <- kable(proportion_df, booktabs=T, align="l",
+                        col.names=c("Condition", "Yes Count", 
+                                    "No Count", "Not Applicable",
+                                    "Percent Yes", "Percent No", 
+                                    "Percent N/A"))
+outcomes_table
+```
+### Interpretation:
+This table is a set of descriptive statistics related to our variables of interest, and the prevalence of each outcome in our sample. 
+
+\newpage
+
+## Bonus Table from Milestone 3: Spread of Continuous Variables
+
+```{r build descriptives table}
+
+#get data
+summary(ca_smoker_outcome$new_howmany)
+summary(ca_smoker_outcome$new_pack_year)
+
+#build dataframe
+measure <- c("Average Cigarettes Smoked Per Day", "Pack Years")
+minimum <- c(1, 0.10)
+median <- c(12, 17)
+mean <- c(13.89, 21.68)
+maximum <- c(60, 120)
+distribution_df <- data.frame(measure, minimum, median, mean, maximum)
+
+#create table
+distribution_table <- kable(distribution_df, booktabs=T, align="lcccc",
+                        col.names=c("Measure", "Minimum Value", 
+                                    "Median Value", "Mean", 
+                                    "Maximum Value"))
+distribution_table
+```
+
+### Interpretation:
+This table displays the spread of the variables "Average Cigarettes Smoked per Day" and "Pack Years" in our sample. 
+
+\newpage
+.
+\newpage
+
+### Not for grading, but also including our data dictionary from Milestone 3 with adjustment recommended by Will, which helped with page runoff. Thank you for this suggestion!
+```{r, include=FALSE}
+library("kableExtra")
+```
 
 ```{r}
 variable_name <- c("ID", "new_smoking_status", "new_howmany", "new_smok6num", 
@@ -390,243 +559,7 @@ data_dictionary <- data_dictionary %>%
     "Variable Name" = variable_name,
     "Data Type" = data_type,
     "Description" = description)
-data_dictionary
-    
 
-```
-
-\newpage
-
-## One or more tables with descriptive statistics for 4 data element
-
-### Table 1: Smooker Outcomes Distributions
-
-```{r first table for outcomes distribution}
-#load kable library
-library(knitr)
-library(kableExtra)
-
-#calculate data for proportion table
-summary(ca_smoker_outcome$new_social)
-summary(ca_smoker_outcome$new_asthma)
-summary(ca_smoker_outcome$new_heartdis)
-summary(ca_smoker_outcome$new_diabetes)
-summary(ca_smoker_outcome$new_othmenill)
-
-#build dataframe
-outcome_variable <- c("Social Smoker", "Asthma", "Heart Disease", "Diabetes", "Other Mental Illness")
-yes_count_variable <- c(748, 191, 81, 81, 171)
-no_count_variable <- c(241, 809, 916, 916, 820)
-NA_count_variable <- c(11, 0, 3, 3, 9)
-yes_prop_variable <- c("74.8%", "19.1%", "8.1%", "8.0%", "17.1%")
-no_prop_variable <- c("24.1%", "80.9%", "91.6%", "91.6%", "82.0%")
-NA_prop_variable <- c("1.1%", "0", "0.3%", "0.3%", "0.9%")
-
-proportion_df <- data.frame(outcome_variable, yes_count_variable, 
-                               no_count_variable, NA_count_variable,
-                               yes_prop_variable, no_prop_variable,
-                               NA_prop_variable)
-
-#create table
-outcomes_table <- kable(proportion_df, booktabs=T, align="l",
-                        col.names=c("Condition", "Yes Count", 
-                                    "No Count", "Not Applicable",
-                                    "Percent Yes", "Percent No", 
-                                    "Percent Not Applicable"))
-outcomes_table
-
-```
-
-\newpage
-
-### Table 2: Spread of Continuous Variables
-
-```{r build descriptives table}
-
-#get data
-summary(ca_smoker_outcome$new_howmany)
-summary(ca_smoker_outcome$new_pack_year)
-
-#build dataframe
-measure <- c("Average Cigarettes Smoked Per Day", "Pack Years")
-minimum <- c(1, 0.10)
-median <- c(12, 17)
-mean <- c(13.89, 21.68)
-maximum <- c(60, 120)
-distribution_df <- data.frame(measure, minimum, median, mean, maximum)
-
-#create table
-distribution_table <- kable(distribution_df, booktabs=T, align="lcccc",
-                        col.names=c("Measure", "Minimum Value", 
-                                    "Median Value", "Mean", 
-                                    "Maximum Value"))
-distribution_table
-```
-
-```{r other new variable brainstorm }
-
-head(ca_smoker_outcome)
-
-#if in years, leave as is
-#if in months, divide by 12
-#could add new column, conditional = 1 if units is in years, equals 12 if units is in months
-#then create another new column for daily smoking length in years
-#then update formula for pack years to reflect this
-
-test_variable_df <- ca_smoker_outcome %>%
-  mutate(temp_var = case_when(new_smok6uni=="Months" ~ 12,
-                              new_smok6uni=="Years" ~ 1, 
-                              new_smok6uni=="Days" ~ 365))
-
-test_variable_df <- test_variable_df %>% 
-  mutate(new_smok6num_inyears = new_smok6num/temp_var)
-
-```
-
-\newpage
-
-## Part 4: 3 Visualizations
-
-## All cross table together
-Danni: Hi Maddy, these tables are linked with Victoria's plots. I put all the table tgt here. You can move these tables to each disease if that looks more understandable:) 
-
-```{r}
-library(janitor)
-library(kableExtra)
-library(tidyverse)
-```
-
-```{r}
-# For asthma status data set
-a <- test_variable_df %>%
-  tabyl(new_asthma, income_levels, show_na = FALSE) %>%
-  adorn_totals(c("col", "row")) %>% 
-  as.data.frame() %>% 
-  rename(Asthma_status = new_asthma)
-
-a <- a[, c("Asthma_status", "High Income", "Middle Income", "Low Income", "Total")]
-
-
-a %>% 
-  kbl(align = "l") %>% 
-  kable_styling(latex_options = "striped") %>% 
-  add_header_above(c(" " = 1, "Income Level" = 3, " " = 1)) %>% 
-  add_header_above(data.frame("Cross Tab of Asthma Status x Income Level", 5))
-```
-
-```{r}
-# For heart disease status data set
-b <- test_variable_df %>%
-  tabyl(new_heartdis, income_levels, show_na = FALSE) %>%
-  adorn_totals(c("col", "row")) %>% 
-  as.data.frame() %>% 
-  rename(Heartdis_status = new_heartdis)
-
-b <- b[, c("Heartdis_status", "High Income", "Middle Income", "Low Income", "Total")]
-
-
-b %>% 
-  kbl(align = "l") %>% 
-  kable_styling(latex_options = "striped") %>% 
-  add_header_above(c(" " = 1, "Income Level" = 3, " " = 1)) %>% 
-  add_header_above(data.frame("Cross Tab of Heart Disease Status x Income Level", 5))
-```
-Danni: For the "(DO NOT READ) Don't know" row, the level of variable factor is still there, not quite sure how to remove it
-
-```{r}
-# For diabetes status data set
-c <- test_variable_df %>%
-  tabyl(new_diabetes, income_levels, show_na = FALSE) %>%
-  adorn_totals(c("col", "row")) %>% 
-  as.data.frame() %>% 
-  rename(Diabetes_status = new_diabetes)
-
-c <- c[, c("Diabetes_status", "High Income", "Middle Income", "Low Income", "Total")]
-
-
-c %>% 
-  kbl(align = "l") %>% 
-  kable_styling(latex_options = "striped") %>% 
-  add_header_above(c(" " = 1, "Income Level" = 3, " " = 1)) %>% 
-  add_header_above(data.frame("Cross Tab of Diabetes Status x Income Level", 5))
-```
-
-
-Victoria: Of those who do have health outcomes, how are they distributed by income
-status. How about those that do not have health outcomes? How are they
-distributed by income.
-
-
-```{r}
-library(ggplot2)
-# Changed New variables to factors from most recent data set 
-test_variable_df$pack_year_avg_level <- as.factor(test_variable_df$pack_year_avg_level)
-test_variable_df$income_levels <- factor(test_variable_df$income_levels)
-test_variable_df$smok_daily <- as.numeric(test_variable_df$smok_daily)
-str(test_variable_df)
-
-#Adding levels to Income Level 
-test_variable_df$income_levels <- ordered(test_variable_df$income_levels, levels = c("Low Income", "Middle Income", "High Income"))
-levels(test_variable_df$income_levels)
-
-#Adding levels to pack year average level
-test_variable_df$pack_year_avg_level <- ordered(test_variable_df$pack_year_avg_level, levels = c("below average", "average", "above average"))
-levels(test_variable_df$pack_year_avg_level)
-```
-
-\newpage
-
-## Asthma data set and ggplot
-
-```{r}
-
-asthma_by_income <- test_variable_df %>% select(new_asthma, income_levels) %>% group_by(new_asthma, income_levels) %>%  mutate(asthma_count = n()) %>% distinct(income_levels,.keep_all = TRUE) %>% na.omit()
-
-A <- ggplot(data = na.omit(asthma_by_income), aes(x = new_asthma, y= asthma_count)) +
-  geom_bar(aes(fill = income_levels), stat = "identity", position = position_dodge()) +
-    scale_fill_discrete(name = "Income Level") + labs(x= "Prevalence of Asthama", y = "# of Patients", title = "Patients and Their Asthma Status Distributed by Income Status", caption = "Note: Patients who did not respond were excluded")
-```
-
-\newpage
-
-## Heart Disease data set and ggplot
-
-```{r}
-heartdis_by_income <- test_variable_df %>% select(new_heartdis, income_levels) %>% group_by(new_heartdis, income_levels) %>%  mutate(heartdis_count = n()) %>% distinct(income_levels,.keep_all = TRUE) %>% na.omit()
-
-B <- ggplot(data = heartdis_by_income, aes(x = new_heartdis, y= heartdis_count)) +
-  geom_bar(aes(fill = income_levels), stat = "identity", position = position_dodge()) +
-  scale_fill_discrete(name = "Income Level") + labs(x= "Prevalence of Heart Disease", y = "# of Patients", title = "Patients and Their Heart Disease Status Distributed by Income Status", caption = "Note: Patients who did not respond were excluded")
-
-
-```
-
-\newpage
-
-## Diabetes data set and ggplot
-
-```{r}
-diabetes_by_income <- test_variable_df %>% select(new_diabetes, income_levels) %>% group_by(new_diabetes, income_levels) %>%  mutate(diabetes_count = n()) %>% distinct(income_levels,.keep_all = TRUE) %>% na.omit()
-
-C<- ggplot(data = diabetes_by_income, aes(x = new_diabetes, y= diabetes_count)) +
-  geom_bar(aes(fill = income_levels), stat = "identity", position = position_dodge()) +
-  scale_fill_discrete(name = "Income Level") + labs(x= "Prevalence of Diabetes", y = "# of Patients", title = "Patients and Their Diabetes Status Distributed by Income Status", caption = "Note: Patients who did not respond were excluded")
- 
-```
-
-\newpage
-
-## All dodged barcharts combined together - Asthma, Heart Diesease and Diabetes - Victoria
-
-```{r}
-# The following code allows download of ggpubr to utilize the ggarrange function to combine all seperate ggplots together. 
-
-if(!require(devtools)) install.packages("devtools")
-devtools::install_github("kassambara/ggpubr")
-install.packages("ggpubr")
-library(ggpubr)
-
-figure_one <- ggarrange(A, B, C, ncol = 1, nrow = 3)
-figure_one
-
+kable(data_dictionary, "latex") %>%
+  kable_styling(full_width=TRUE)
 ```
