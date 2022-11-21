@@ -328,7 +328,6 @@ b %>%
   add_header_above(c(" " = 1, "Income Level" = 3, " " = 1)) %>% 
   add_header_above(data.frame("Cross Tab of Heart Disease Status x Income Level", 5))
 ```
-Danni: For the "(DO NOT READ) Don't know" row, the level of variable factor is still there, not quite sure how to remove it
 
 ### Interpretation:
 Of the 77 patients with heart disease, 14 were reported as the high-income group, 20 as the middle-income group, and 43 as the low-income group. 
@@ -436,16 +435,22 @@ devtools::install_github("kassambara/ggpubr")
 install.packages("ggpubr")
 library(ggpubr)
 ```
+
 ```{r}
 # Hidden code allows download of ggpubr to utilize the ggarrange function to 
 # combine all seperate ggplots together. 
 
 figure_one <- ggarrange(A, B, C, ncol = 1, nrow = 3)
 figure_one
-
 ```
 ### Interpretation
-This graph displays the prevalence of three of our dependent variables: health outcomes of interest stratified by income status, our independent variable of interest. 
+In Patients and Their Asthma Status Distributed by Income Status, of the 762 patients that reported no asthma, 285 patients came from low-income households, 290 patients came from middle-income households, and 187 patients came from high-income households. Of the 176 patients that reported having asthma, 97 patients came from low-income households, 49 patients came from middle-income households, and 30 patients came from high-income households.
+
+In Patients and Their Heart Disease Status Distributed by Income Status, of the 858 patients that reported no heart disease, 337 patients came from low-income households, 319 patients came from middle-income households, and 202 patients came from high-income households. Of the 77 patients that reported having heart disease, 43 patients came from low-income households, 20 patients came from middle-income households, and 14 patients came from high-income households.
+
+In Patients and Their Diabetes Status Distributed by Income Status, of the 858 patients that reported no diabetes, 337 patients came from low-income households, 319 patients came from middle-income households, and 202 patients came from high-income households. Of the 77 patients that reported having diabetes, 43 patients came from low-income households, 20 patients came from middle-income households, and 14 patients came from high-income households.
+
+When comparing all bar-graphs we can observe that the study population has a larger proportion of low-income patients, therefore we cannot assume that those with health outcomes are disproportionately low-income households. In patients who have heart disease, it is observed that they are the exact same patients that have diabetes, which we can interpret that heart disease and diabetes have some biological correlation. 
 
 \newpage
 
