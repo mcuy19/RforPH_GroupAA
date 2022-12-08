@@ -10,6 +10,12 @@ editor_options:
     wrap: 72
 ---
 
+### Problem statement
+
+Smoking cigarettes damages almost all of the body's organs, increases the risk of several illnesses, and generally lowers people's health. Additionally, the most common preventable cause of mortality in the US is smoking cigarettes. Smoking harms almost all organs and is linked to numerous cancers, heart conditions, strokes, respiratory conditions such chronic obstructive pulmonary disease, diabetes, and other disorders. However, some smokers are more vulnerable to these negative effects than others. The question is what characteristics and behaviors among smokers in California led to adverse health outcomes.
+
+At any age, even among heavy and longtime smokers, quitting smoking can have a significant positive impact on both short- and long-term health. For the prevention and cessation of smoking, a range of therapies are successful. With the use of data from the 2011 California Smokers' Cohort (CSC), the California Tobacco Surveys (CTS), we may better understand the tobacco use and smoking habits of Californian smokers and put initiatives into place in high-risk areas to encourage quitting.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
@@ -320,13 +326,14 @@ b <- test_variable_df %>%
   as.data.frame() %>% 
   rename(Heartdis_status = new_heartdis)
 
-b <- b[, c("Heartdis_status", "High Income", "Middle Income", "Low Income", "Total")]
+b <- b[-1, c("Heartdis_status", "High Income", "Middle Income", "Low Income", "Total")]
 
 b %>% 
   kbl(align = "l") %>% 
   kable_styling(latex_options = "striped") %>% 
-  add_header_above(c(" " = 1, "Income Level" = 3, " " = 1)) %>% 
-  add_header_above(data.frame("Cross Tab of Heart Disease Status x Income Level", 5))
+  add_header_above(c(" " = 2, "Income Level" = 3, " " = 1)) %>% 
+  add_header_above(data.frame("Cross Tab of Heart Disease Status x Income Level", 6))
+
 ```
 
 ### Interpretation:
@@ -341,13 +348,13 @@ c <- test_variable_df %>%
   as.data.frame() %>% 
   rename(Diabetes_status = new_diabetes)
 
-c <- c[, c("Diabetes_status", "High Income", "Middle Income", "Low Income", "Total")]
+c <- c[-1, c("Diabetes_status", "High Income", "Middle Income", "Low Income", "Total")]
 
 c %>% 
   kbl(align = "l") %>% 
   kable_styling(latex_options = "striped") %>% 
-  add_header_above(c(" " = 1, "Income Level" = 3, " " = 1)) %>% 
-  add_header_above(data.frame("Cross Tab of Diabetes Status x Income Level", 5))
+  add_header_above(c(" " = 2, "Income Level" = 3, " " = 1)) %>% 
+  add_header_above(data.frame("Cross Tab of Diabetes Status x Income Level", 6))
 ```
 
 ### Interpretation:
