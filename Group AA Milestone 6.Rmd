@@ -1,0 +1,588 @@
+---
+title: "Group AA Milestone 6"
+output:
+  pdf_document: default
+  word_document: default
+date: '2022-11-18'
+group members: Victoria, Danni, Maddy
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+### Problem statement
+
+Smoking cigarettes damages almost all of the body's organs, increases the risk of several illnesses, and generally lowers people's health. Additionally, the most common preventable cause of mortality in the US is smoking cigarettes. Smoking harms almost all organs and is linked to numerous cancers, heart conditions, strokes, respiratory conditions such chronic obstructive pulmonary disease, diabetes, and other disorders. However, some smokers are more vulnerable to these negative effects than others. The question is what characteristics and behaviors among smokers in California lead to adverse health outcomes?
+
+At any age, even among heavy and longtime smokers, quitting smoking can have a significant positive impact on both short- and long-term health. For the prevention and cessation of smoking, a range of therapies are successful. With the use of data from the 2011 California Smokers' Cohort (CSC), the California Tobacco Surveys (CTS), we may better understand the tobacco use and smoking habits of Californian smokers and put initiatives into place in high-risk areas to encourage quitting.
+
+In the 2011 CSC study, 1,000 smokers completed the follow up survey and we had decided to clean and analyze the data for health characteristics. Our data sets were originally in two data sets, so they were combined by patient ID which correctly resulted in the total of 1,000 participants. Once that was finalized our group had cleaned and analyzed the data by factoring all variables that were characters and uniformed the units of pack years. Our study population did not have a very diverse spread, so we decided to exclude race in our analysis. Our team decided to investigate and focus on health outcomes and the stratification by income level, so we decided to subset our data accordingly to variables that would be of importance in our visualization analysis. 
+
+In our visualizations, when comparing all bar-graphs of health outcomes off asthma, heart disease, and diabetes stratified by income status, we can observe that the study population has a larger proportion of low-income patients, therefore we cannot assume that those with health outcomes are disproportionately low-income households. In patients who have heart disease, it is observed that they are the exact same patients that have diabetes, which we can interpret that heart disease and diabetes have some biological correlation. 
+
+In our outcomes table, those who were social smokers were about 75% of the study population, which may allude to a need for improved community public health intervention to reduce the prevalence on social smoking. Our outcomes table also includes prevalence percentages for the health outcomes of asthma, heart disease and other mental illnesses. If we wanted to investigate further, then we could you these percentages if we wanted to see if they are statistically significant enough for this study population. 
+
+In our distribution table, we can see that of those in the study population that did smoke, smoked an average of 13 cigarettes per day and have an average 21 pack years. Considering that 20-40 pack years are categorized as moderate smokers, these groups have higher odds in health outcomes and there could be effect modification on other confounders that we have not identified within the study. 
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+```{r importing demographic data, include=FALSE}
+#import CA Smoker data set
+ca_smoker_info <- read_csv("~/PHW251_Fall2022/phw251_projectdata/ca_csc_smoker_data.csv")
+
+ca_smoker_info$HOWMANY <- as.character(ca_smoker_info$HOWMANY)
+
+#tidying data
+ca_smoker_selected <- ca_smoker_info %>% select(c(psraid,smokstat,HOWMANY, SMOK6NUM, SMOK6UNI)) %>% 
+rename(ID = psraid, smoking_status = smokstat, howmany = HOWMANY, smok6num = SMOK6NUM, smok6uni = SMOK6UNI) 
+
+ca_smoker_selected$howmany <- as.numeric(ca_smoker_selected$howmany)
+ca_smoker_selected$smok6num <- as.numeric(ca_smoker_selected$smok6num)
+
+ca_smoker_selected <- ca_smoker_selected %>%
+  mutate(pack_year = howmany/20*smok6num)
+```
+
+```{r importing outcome data, include=FALSE}
+#import CA smoker disease outcome and race data set
+ca_outcome_race <- read_csv("~/PHW251_Fall2022/phw251_projectdata/ca_csc_outcome_race_data.csv")
+
+#tidying data
+ca_outcome_race_selected <- ca_outcome_race %>% select(c(ID, SOCIAL, ASTHMA, 
+                                                         HEARTDIS, DIABETES, 
+                                                         OTHMENILL, INCOME, 
+                                                         race01, race02, race03, 
+                                                         race04, race05, race06, 
+                                                         race07, race08, race09, 
+                                                         race10, race11, race12, 
+                                                         race13,race14, race15)) %>%
+rename (social = SOCIAL, asthma = ASTHMA, heartdis = HEARTDIS, diabetes = DIABETES, 
+        othmenill = OTHMENILL, income = INCOME)
+
+```
+
+```{r, include=FALSE}
+#remove "DIS" & "STAT" in the "ID" column 
+ca_outcome_race_selected$ID <- gsub("DIS","",as.character(ca_outcome_race_selected$ID))
+ca_outcome_race_selected$ID <- gsub("STAT","",as.character(ca_outcome_race_selected$ID))
+
+#joining two data sets by participant's unique ID
+ca_smoker_outcome <- merge(x = ca_smoker_selected, y = ca_outcome_race_selected, by = "ID")
+
+```
+
+
+```{r create single race variable, include=FALSE}
+
+#use mutate to combine 15 binary race columns into one categorical variable called "race"
+
+ca_smoker_outcome <- ca_smoker_outcome %>% 
+  mutate(race = case_when(race01 == "Yes" ~ "White",
+                          race02 == "Yes" ~ "Black",
+                          race03 == "Yes" ~ "Japanese",
+                          race04 == "Yes" ~ "Chinese",
+                          race05 == "Yes" ~ "Filipino",
+                          race06 == "Yes" ~ "Korean",
+                          race12 == "Yes" ~ "Vietnamese",
+                          race07 == "Yes" ~ "Other Asian Pacific Islander",
+                          race08 == "Yes" ~ "American Indian Alaska Native",
+                          race09 == "Yes" ~ "Mexican",
+                          race10 == "Yes" ~ "Hispanic or Latino",
+                          race11 == "Yes" ~ "Other",
+                          race13 == "Yes" ~ "Asian Indian",
+                          race14 == "Yes" ~ "Refused",
+                          race15 == "Yes" ~ "Don't Know"))
+
+#drop leftover binary race columns 
+
+ca_smoker_outcome <- select(ca_smoker_outcome,-race01,
+                                 -race02,
+                                 -race03,
+                                 -race04,
+                                 -race05,
+                                 -race06,
+                                 -race07,
+                                 -race08,
+                                 -race09,
+                                 -race10,
+                                 -race11,
+                                 -race12,
+                                 -race13,
+                                 -race14,
+                                 -race15)
+                            
+
+```
+
+```{r, include=FALSE}
+#identify types of each data element
+str(ca_smoker_outcome)
+
+#convert data types to appropriate type in new column such as as.factor; as.numeric; as.character
+ca_smoker_outcome <- ca_smoker_outcome %>% mutate(new_howmany = as.numeric(howmany)) %>%
+  mutate(new_smoking_status= as.factor(smoking_status)) %>% 
+  mutate(new_smok6num = as.numeric(smok6num)) %>% 
+  mutate(new_smok6uni = as.factor(smok6uni)) %>%
+  mutate(new_pack_year = as.numeric(pack_year)) %>% 
+  mutate(new_social = as.factor(social)) %>% 
+  mutate(new_asthma = as.factor(asthma)) %>% 
+  mutate(new_heartdis = as.factor(heartdis)) %>% 
+  mutate(new_diabetes = as.factor(heartdis)) %>% 
+  mutate(new_othmenill = as.factor(othmenill)) %>% 
+  mutate(new_income = as.factor(income))
+
+summary(ca_smoker_outcome$new_howmany)
+```
+
+```{r explore smoking status variable, include=FALSE}
+#number of unique categories 
+ca_smoker_outcome %>% summarize(n_distinct(smoking_status))
+
+#names of unique categories 
+ca_smoker_outcome %>% summarize(unique(smoking_status))
+
+#tabulate smoking status
+table(ca_smoker_outcome$smoking_status)
+```
+
+
+```{r explore race variable, include=FALSE}
+#number of unique categories 
+ca_smoker_outcome %>% summarize(n_distinct(race))
+
+#names of unique categories 
+ca_smoker_outcome %>% summarize(unique(race))
+
+#tabulate smoking status
+table(ca_smoker_outcome$race)
+```
+
+```{r explore income variable, include=FALSE}
+#number of unique categories 
+ca_smoker_outcome %>% summarize(n_distinct(income))
+
+#names of unique categories 
+ca_smoker_outcome %>% summarize(unique(income))
+
+#tabulate income
+table(ca_smoker_outcome$income)
+```
+
+```{r explore heart disease outcome variable, include=FALSE}
+#number of unique categories 
+ca_smoker_outcome %>% summarize(n_distinct(heartdis))
+
+#names of unique categories 
+ca_smoker_outcome %>% summarize(unique(heartdis))
+
+#tabulate income
+table(ca_smoker_outcome$heartdis)
+```
+```{r explore pack years variable, include=FALSE}
+
+#look at minimum, median, mean, maximum, and # of NAs in pack year
+summary(ca_smoker_outcome$new_pack_year)
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+library(lubridate)
+
+is.na(ca_smoker_outcome) <- ca_smoker_outcome == "(DO NOT READ) Don't know"
+is.na(ca_smoker_outcome) <- ca_smoker_outcome == "(DO NOT READ) Refused"
+is.na(ca_smoker_outcome) <- ca_smoker_outcome == "NA/Not Applicable"
+
+#subsetting rows  and columns to include only "new" columns, rows include NA 
+
+str(ca_smoker_outcome)
+ca_smoker_outcome <- select(ca_smoker_outcome, 
+                            c('ID', 'new_smoking_status', 'new_howmany', 
+                              'new_smok6num', 'new_smok6uni', 'new_pack_year',
+                              'new_social', 'new_asthma', 'new_heartdis',
+                              'new_diabetes', 'new_othmenill', 'new_income'))
+```
+
+```{r, include=FALSE}
+library(stringr)
+ca_smoker_outcome <- ca_smoker_outcome %>% 
+  mutate(smok_daily = str_c(ca_smoker_outcome$new_smok6num," ",
+                            ca_smoker_outcome$new_smok6nuni)) 
+```
+
+```{r, include=FALSE}
+library(dplyr)
+summary(ca_smoker_outcome$new_pack_year)
+ca_smoker_outcome <- ca_smoker_outcome %>% 
+  mutate(pack_year_avg = mean(ca_smoker_outcome$new_pack_year, na.rm = TRUE))
+ca_smoker_outcome$pack_year_avg <- round(ca_smoker_outcome$pack_year_avg ,digit= 0)
+ca_smoker_outcome <- ca_smoker_outcome %>% mutate(pack_year_avg_level = case_when
+                                                  (new_pack_year > pack_year_avg ~ "above average", 
+                                                    new_pack_year < pack_year_avg ~ "below average",
+                                                    new_pack_year == pack_year_avg ~ "average"))
+
+```
+
+```{r, include=FALSE}
+unique(ca_smoker_outcome$new_income)
+ca_smoker_outcome <- ca_smoker_outcome %>% mutate(income_levels = case_when( 
+  new_income %in% c("$20,000 or less", "$20,001 to $30,000") ~ "Low Income",
+new_income %in% c("$30,001 to $50,000", "$50,001 to $75,000") ~ "Middle Income",
+new_income %in% c("$75,001 to $100,000", "$100,001 to $150,000", "Over $150,000") ~ "High Income")) 
+```
+
+```{r, include=FALSE}
+table(ca_smoker_outcome$new_smoking_status, useNA = "always")
+table(ca_smoker_outcome$new_smok6uni, useNA = "always")
+table(ca_smoker_outcome$new_social, useNA = "always")
+table(ca_smoker_outcome$new_asthma, useNA = "always")
+table(ca_smoker_outcome$new_heartdis, useNA = "always")
+table(ca_smoker_outcome$new_diabetes, useNA = "always")
+table(ca_smoker_outcome$new_othmenill, useNA = "always")
+table(ca_smoker_outcome$new_income, useNA = "always")
+```
+
+```{r other new variable brainstorm, include=FALSE}
+
+head(ca_smoker_outcome)
+
+#if in years, leave as is
+#if in months, divide by 12
+#could add new column, conditional = 1 if units is in years, equals 12 if units is in months
+#then create another new column for daily smoking length in years
+#then update formula for pack years to reflect this
+
+test_variable_df <- ca_smoker_outcome %>%
+  mutate(temp_var = case_when(new_smok6uni=="Months" ~ 12,
+                              new_smok6uni=="Years" ~ 1, 
+                              new_smok6uni=="Days" ~ 365))
+
+test_variable_df <- test_variable_df %>% 
+  mutate(new_smok6num_inyears = new_smok6num/temp_var)
+
+```
+
+\newpage
+
+# Milestone 4: Visualizations
+
+## Visual 1: Table One of Pack Years and Health Outcomes
+```{r}
+library(kableExtra)
+library(tableone) #load table one library
+
+#build new dataset with only necessary variables
+visual3_df <- test_variable_df %>% 
+  select(new_asthma, new_diabetes, new_heartdis, new_pack_year, new_othmenill, pack_year_avg_level) %>%
+  rename(Asthma=new_asthma,
+         "Above/Below Average Pack Years" = pack_year_avg_level,
+         Diabetes=new_diabetes, 
+         "Heart Disease"=new_heartdis, 
+         "Pack Years"=new_pack_year, 
+         "Other Mental Health" =new_othmenill)
+#create table one
+visual3table <- CreateTableOne(data=visual3_df,
+  vars=c("Pack Years", "Asthma", "Diabetes", "Heart Disease", "Other Mental Health"),
+  factorVars = c("Asthma", "Diabetes", "Heart Disease", "Other Mental Health", "Above/Below Average Pack Years"),
+  strata="Above/Below Average Pack Years")
+kable(print(visual3table, showAllLevels=TRUE), 
+      caption="Pack Years and Health Outcomes Stratified by Above/Below Average Pack Years")
+
+```
+### Interpretation: 
+This table is a "table one": a common table of descriptive statistics for a study sample. This table one displays descriptive statistics for our health outcomes of interest, as well as the pack years variable. All are stratified by one of our factor variables, "above/below pack years average", which displays
+whether the participant's pack years calculated in Milestone 3 were above, at, or below the average pack years of the entire sample. 
+
+\newpage
+
+## Visual 2: Outcome and Income Cross Tabulations 
+
+```{r, include=FALSE}
+library(janitor)
+library(kableExtra)
+library(tidyverse)
+```
+
+```{r}
+# For asthma status data set
+a <- test_variable_df %>%
+  tabyl(new_asthma, income_levels, show_na = FALSE) %>%
+  adorn_totals(c("col", "row")) %>% 
+  as.data.frame() %>% 
+  rename(Asthma_status = new_asthma)
+
+a <- a[, c("Asthma_status", "High Income", "Middle Income", "Low Income", "Total")]
+
+a %>% 
+  kbl(align = "l") %>% 
+  kable_styling(latex_options = "striped") %>% 
+  add_header_above(c(" " = 1, "Income Level" = 3, " " = 1)) %>% 
+  add_header_above(data.frame("Cross Tab of Asthma Status x Income Level", 5))
+```
+
+### Interpretation: 
+Of the 176 patients with asthma, 30 were reported as the high-income group, 49 as the middle-income group, and 97 as the low-income group. 
+Of the 762 study participants without asthma, 187 were reported as the high-income group, 290 as the middle-income group, and 285 as the low-income group.  
+
+```{r}
+# For heart disease status data set
+b <- test_variable_df %>%
+  tabyl(new_heartdis, income_levels, show_na = FALSE) %>%
+  adorn_totals(c("col", "row")) %>% 
+  as.data.frame() %>% 
+  rename(Heartdis_status = new_heartdis)
+
+b <- b[-1, c("Heartdis_status", "High Income", "Middle Income", "Low Income", "Total")]
+
+b %>% 
+  kbl(align = "l") %>% 
+  kable_styling(latex_options = "striped") %>% 
+  add_header_above(c(" " = 2, "Income Level" = 3, " " = 1)) %>% 
+  add_header_above(data.frame("Cross Tab of Heart Disease Status x Income Level", 6))
+
+```
+
+### Interpretation:
+Of the 77 patients with heart disease, 14 were reported as the high-income group, 20 as the middle-income group, and 43 as the low-income group. 
+Of the 858 study participants without heart disease, 202 were reported as the high-income group, 319 as the middle-income group, and 337 as the low-income group. 
+
+```{r}
+# For diabetes status data set
+c <- test_variable_df %>%
+  tabyl(new_diabetes, income_levels, show_na = FALSE) %>%
+  adorn_totals(c("col", "row")) %>% 
+  as.data.frame() %>% 
+  rename(Diabetes_status = new_diabetes)
+
+c <- c[-1, c("Diabetes_status", "High Income", "Middle Income", "Low Income", "Total")]
+
+c %>% 
+  kbl(align = "l") %>% 
+  kable_styling(latex_options = "striped") %>% 
+  add_header_above(c(" " = 2, "Income Level" = 3, " " = 1)) %>% 
+  add_header_above(data.frame("Cross Tab of Diabetes Status x Income Level", 6))
+```
+
+### Interpretation:
+Of the 77 patients with heart disease, 14 were reported as the high-income group, 20 as the middle-income group, and 43 as the low-income group. 
+Of the 858 study participants without heart disease, 202 were reported as the high-income group, 319 as the middle-income group, and 337 as the low-income group. 
+
+\newpage
+
+## Visual 3: Of those who do have health outcomes, how are they distributed by income status. How are those that do not have health outcomes distributed by income?
+
+```{r, include=FALSE}
+library(ggplot2)
+# Changed New variables to factors from most recent data set 
+test_variable_df$pack_year_avg_level <- as.factor(test_variable_df$pack_year_avg_level)
+test_variable_df$income_levels <- factor(test_variable_df$income_levels)
+test_variable_df$smok_daily <- as.numeric(test_variable_df$smok_daily)
+str(test_variable_df)
+
+#Adding levels to Income Level 
+test_variable_df$income_levels <- ordered(test_variable_df$income_levels, levels = c("Low Income", "Middle Income", "High Income"))
+levels(test_variable_df$income_levels)
+
+#Adding levels to pack year average level
+test_variable_df$pack_year_avg_level <- ordered(test_variable_df$pack_year_avg_level, levels = c("below average", "average", "above average"))
+levels(test_variable_df$pack_year_avg_level)
+```
+
+## Asthma data set and ggplot
+
+```{r}
+asthma_by_income <- test_variable_df %>% select(new_asthma, income_levels) %>% 
+  group_by(new_asthma, income_levels) %>%  mutate(asthma_count = n()) %>% 
+  distinct(income_levels,.keep_all = TRUE) %>% na.omit()
+
+A <- ggplot(data = na.omit(asthma_by_income), aes(x = new_asthma, y= asthma_count)) +
+  geom_bar(aes(fill = income_levels), stat = "identity", position = position_dodge()) +
+    scale_fill_discrete(name = "Income Level") + 
+  labs(x= "Prevalence of Asthama", y = "# of Patients",
+       title = "Patients and Their Asthma Status Distributed by Income Status", 
+       caption = "Note: Patients who did not respond were excluded")
+```
+
+## Heart Disease data set and ggplot
+
+```{r}
+heartdis_by_income <- test_variable_df %>% select(new_heartdis, income_levels) %>% 
+  group_by(new_heartdis, income_levels) %>%  mutate(heartdis_count = n()) %>% 
+  distinct(income_levels,.keep_all = TRUE) %>% na.omit()
+
+B <- ggplot(data = heartdis_by_income, aes(x = new_heartdis, y= heartdis_count)) +
+  geom_bar(aes(fill = income_levels), stat = "identity", position = position_dodge()) +
+  scale_fill_discrete(name = "Income Level") + 
+  labs(x= "Prevalence of Heart Disease", y = "# of Patients", 
+       title = "Patients and Their Heart Disease Status Distributed by Income Status",
+       caption = "Note: Patients who did not respond were excluded")
+
+```
+
+## Diabetes data set and ggplot
+
+```{r}
+diabetes_by_income <- test_variable_df %>% select(new_diabetes, income_levels) %>% 
+  group_by(new_diabetes, income_levels) %>%  mutate(diabetes_count = n()) %>% 
+  distinct(income_levels,.keep_all = TRUE) %>% na.omit()
+
+C<- ggplot(data = diabetes_by_income, aes(x = new_diabetes, y= diabetes_count)) +
+  geom_bar(aes(fill = income_levels), stat = "identity", position = position_dodge()) +
+  scale_fill_discrete(name = "Income Level") + 
+  labs(x= "Prevalence of Diabetes", y = "# of Patients", 
+       title = "Patients and Their Diabetes Status Distributed by Income Status",
+       caption = "Note: Patients who did not respond were excluded")
+ 
+```
+
+\newpage
+
+## Combined Dodged Barcharts displaying Prevalence of Asthma, Heart Disease and Diabetes Stratified by Income Status
+
+```{r, include=FALSE}
+# The following code allows download of ggpubr to utilize the ggarrange function to 
+# combine all separate ggplots together. 
+
+if(!require(devtools)) install.packages("devtools")
+devtools::install_github("kassambara/ggpubr")
+install.packages("ggpubr")
+library(ggpubr)
+```
+
+```{r}
+# Hidden code allows download of ggpubr to utilize the ggarrange function to 
+# combine all seperate ggplots together. 
+
+figure_one <- ggarrange(A, B, C, ncol = 1, nrow = 3)
+figure_one
+```
+### Interpretation
+In Patients and Their Asthma Status Distributed by Income Status, of the 762 patients that reported no asthma, 285 patients came from low-income households, 290 patients came from middle-income households, and 187 patients came from high-income households. Of the 176 patients that reported having asthma, 97 patients came from low-income households, 49 patients came from middle-income households, and 30 patients came from high-income households.
+
+In Patients and Their Heart Disease Status Distributed by Income Status, of the 858 patients that reported no heart disease, 337 patients came from low-income households, 319 patients came from middle-income households, and 202 patients came from high-income households. Of the 77 patients that reported having heart disease, 43 patients came from low-income households, 20 patients came from middle-income households, and 14 patients came from high-income households.
+
+In Patients and Their Diabetes Status Distributed by Income Status, of the 858 patients that reported no diabetes, 337 patients came from low-income households, 319 patients came from middle-income households, and 202 patients came from high-income households. Of the 77 patients that reported having diabetes, 43 patients came from low-income households, 20 patients came from middle-income households, and 14 patients came from high-income households.
+
+
+
+\newpage
+
+## Bonus Table from Milestone 3: Smoker Outcomes Distributions
+
+```{r first table for outcomes distribution}
+#load kable library
+library(knitr)
+library(kableExtra)
+
+#calculate data for proportion table
+summary(ca_smoker_outcome$new_social)
+summary(ca_smoker_outcome$new_asthma)
+summary(ca_smoker_outcome$new_heartdis)
+summary(ca_smoker_outcome$new_diabetes)
+summary(ca_smoker_outcome$new_othmenill)
+
+#build dataframe
+outcome_variable <- c("Social Smoker", "Asthma", "Heart Disease", "Diabetes", "Other Mental Illness")
+yes_count_variable <- c(748, 191, 81, 81, 171)
+no_count_variable <- c(241, 809, 916, 916, 820)
+NA_count_variable <- c(11, 0, 3, 3, 9)
+yes_prop_variable <- c("74.8%", "19.1%", "8.1%", "8.0%", "17.1%")
+no_prop_variable <- c("24.1%", "80.9%", "91.6%", "91.6%", "82.0%")
+NA_prop_variable <- c("1.1%", "0", "0.3%", "0.3%", "0.9%")
+
+proportion_df <- data.frame(outcome_variable, yes_count_variable, 
+                               no_count_variable, NA_count_variable,
+                               yes_prop_variable, no_prop_variable,
+                               NA_prop_variable)
+
+#create table
+outcomes_table <- kable(proportion_df, booktabs=T, align="l",
+                        col.names=c("Condition", "Yes Count", 
+                                    "No Count", "Not Applicable",
+                                    "Percent Yes", "Percent No", 
+                                    "Percent N/A"))
+outcomes_table
+```
+### Interpretation:
+This table is a set of descriptive statistics related to our variables of interest, and the prevalence of each outcome in our sample. 
+
+\newpage
+
+## Bonus Table from Milestone 3: Spread of Continuous Variables
+
+```{r build descriptives table}
+
+#get data
+summary(ca_smoker_outcome$new_howmany)
+summary(ca_smoker_outcome$new_pack_year)
+
+#build dataframe
+measure <- c("Average Cigarettes Smoked Per Day", "Pack Years")
+minimum <- c(1, 0.10)
+median <- c(12, 17)
+mean <- c(13.89, 21.68)
+maximum <- c(60, 120)
+distribution_df <- data.frame(measure, minimum, median, mean, maximum)
+
+#create table
+distribution_table <- kable(distribution_df, booktabs=T, align="lcccc",
+                        col.names=c("Measure", "Minimum Value", 
+                                    "Median Value", "Mean", 
+                                    "Maximum Value"))
+distribution_table
+```
+
+### Interpretation:
+This table displays the spread of the variables "Average Cigarettes Smoked per Day" and "Pack Years" in our sample. 
+
+\newpage
+.
+\newpage
+
+### Not for grading, but also including our data dictionary from Milestone 3 with adjustment recommended by Will, which helped with page runoff. Thank you for this suggestion!
+```{r, include=FALSE}
+library("kableExtra")
+```
+
+```{r}
+variable_name <- c("ID", "new_smoking_status", "new_howmany", "new_smok6num", 
+                   "new_somk6uni", "new_pack_year", "new_social", "new_asthma", 
+                   "new_heartdis", "new_diabetes", "new_othmenill", "new_income", "smok_daily",
+                   "pack_year_avg", "pack_year_avg_level", "income_levels")
+
+data_type <- c("numeric", "character", "numeric", "numeric", "character", "numeric",
+               "character", "character", "character", "character", "character", 
+               "character", "numeric", "numeric", "character", "character")
+
+description <- c("Participant identification number", 
+                 "Current Smoking Status: Current Daily Smoker (Smoked >99 and smokes every day), 
+                 Current Nondaily Smoker(Smoked >99 and smokes some days)", 
+              "During the past 30 days, on the days that you did smoke, about 
+              'HOWMANY' cigarettes did you usually smoke per day?", 
+              "How long have you been smoking on a daily basis?", "The unit for smol6num variable", 
+              "A pack-year is used to describe how many cigarettes smoked in a person's lifetime, 
+              with a pack equal to 20 cigarettes", 
+              "yes/no the participant identifies as a social smoker", 
+              "yes/no the participant has asthma",
+              "yes/no the participant has heart disease", 
+              "yes/no the participant has diabetes",
+              "yes/no the participant reports 'other mental illness'",
+              "participant household income",
+              "cigarettes smoked daily",
+              "average pack years for entire cohort, created for our average variable",
+              "indicator for whether participant is below, at, or above the average pack years",
+              "categorical income levels defined using California household income data")
+
+data_dictionary <- data.frame(variable_name, data_type, description)
+data_dictionary <- data_dictionary %>% 
+  rename(
+    "Variable Name" = variable_name,
+    "Data Type" = data_type,
+    "Description" = description)
+
+kable(data_dictionary, "latex") %>%
+  kable_styling(full_width=TRUE)
+```
