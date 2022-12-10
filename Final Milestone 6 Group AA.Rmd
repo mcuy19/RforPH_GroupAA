@@ -12,7 +12,6 @@ group members: Victoria, Danni, Maddy
 
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-library(stringr)
 
 ```
 ### Problem statement
@@ -28,6 +27,8 @@ In the 2011 CSC study, 1,000 smokers completed the follow up survey and were inc
 ```{r importing demographic data, include=FALSE}
 #import CA Smoker data set
 
+install.packages("ggpubr")
+library("ggpubr")
 library("stringr")
 
 ca_smoker_info <- read_csv("~/PHW251_Fall2022/phw251_projectdata/ca_csc_smoker_data.csv")
