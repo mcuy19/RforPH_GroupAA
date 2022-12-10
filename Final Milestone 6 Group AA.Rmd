@@ -1,10 +1,10 @@
 ---
 title: "Group AA Milestone 6"
 output:
+  pdf_document: default
+  word_document: default
   html_document:
     df_print: paged
-  word_document: default
-  pdf_document: default
 date: '2022-12-11'
 group members: Victoria, Danni, Maddy
 ---
@@ -496,5 +496,5 @@ Based on our results, it seems that income is a considerable mediator for our he
 
 Additionally, we found that a person reporting average, below average, or above average pack years does not strongly correlate with disease outcome. Those who reported above-average pack years were no more likely to report asthma (19.9%)  or mental health issues (18.3%)  than those with below average pack years (19.9% and 18.8%). However, those with above average pack years were more likely to report diabetes (12.7%) than those with below average pack years (6%) and more likely to report heart disease (12.7%) than those with below average pack years (6%). 
 	
-Based on these findings, our recommendation for CDPH would be to prioritize quitting and smoking prevention campaigns and programs among lower income communities. We would not recommend campaigns to decrease smoking (and therefore pack years) since pack years did not seem to have as large of an effect on disease outcome.. This recommendation for interventions targeted towards certain populations is  aimed at attempting  to reduce health disparities since based on our results, those in lower income groups are more likely to report negative health outcomes than those in higher income groups. 
+Based on these findings, our recommendation for CDPH would be to prioritize quitting and smoking prevention campaigns and programs among lower income communities. We would not recommend campaigns to decrease smoking (and therefore pack years) since pack years did not seem to have as large of an effect on disease outcome. This recommendation for interventions targeted towards certain populations is  aimed at attempting  to reduce health disparities since based on our results, those in lower income groups are more likely to report negative health outcomes than those in higher income groups. 
 
