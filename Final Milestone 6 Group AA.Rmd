@@ -6,7 +6,7 @@ output:
   html_document:
     df_print: paged
 date: '2022-12-11'
-group members: Victoria, Danni, Maddy
+group members: Victoria, Danni, Maddy 
 ---
 ```{r setup, include=FALSE}
 
