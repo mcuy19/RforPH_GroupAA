@@ -1,10 +1,10 @@
 ---
 title: "Group AA Milestone 6"
 output:
-  pdf_document: default
-  word_document: default
   html_document:
     df_print: paged
+  word_document: default
+  pdf_document: default
 date: '2022-12-11'
 group members: Victoria, Danni, Maddy 
 ---
@@ -485,11 +485,11 @@ figure_one
 
 ### Results
 
-In our visualizations, when comparing all bar-graphs of health outcomes off asthma, heart disease, and diabetes stratified by income status, we can observe that the study population has a larger proportion of low-income patients, therefore we cannot assume that those with health outcomes are disproportionately low-income households. In patients who have heart disease, it is observed that they are the exact same patients that have diabetes, which we can interpret that heart disease and diabetes have some biological correlation. 
+In visualization 1, we can see that of those in the study population that did smoke, smoked an average of 13 cigarettes per day and have an average 21 pack years. Considering that 20-40 pack years are categorized as moderate smokers, these groups have higher odds in health outcomes and there could be effect modification on other confounders that we have not identified within the study.
 
-In our outcomes table, those who were social smokers were about 75% of the study population, which may allude to a need for improved community public health intervention to reduce the prevalence on social smoking. Our outcomes table also includes prevalence percentages for the health outcomes of asthma, heart disease and other mental illnesses. If we wanted to investigate further, then we could you these percentages if we wanted to see if they are statistically significant enough for this study population. 
+Visualization 2 is an outcome table that portrays in our study population, those who were social smokers were about 75% of the study population, which may allude to a need for improved community public health intervention to reduce the prevalence on social smoking. Our outcomes table also includes prevalence percentages for the health outcomes of asthma, heart disease and other mental illnesses. If we wanted to investigate further, then we could you these percentages if we wanted to see if they are statistically significant enough for this study population.
 
-In our distribution table, we can see that of those in the study population that did smoke, smoked an average of 13 cigarettes per day and have an average 21 pack years. Considering that 20-40 pack years are categorized as moderate smokers, these groups have higher odds in health outcomes and there could be effect modification on other confounders that we have not identified within the study. 
+Lastly, in visualization 3 when comparing all bar-graphs of health outcomes off asthma, heart disease, and diabetes stratified by income status, we can observe that the study population has a larger proportion of low-income patients, therefore we cannot assume that those with health outcomes are disproportionately low-income households. In patients who have heart disease, it is observed that they are the exact same patients that have diabetes, which we can interpret that heart disease and diabetes have some biological correlation. 
 
 ### Discussion
 
